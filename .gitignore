@@ -349,3 +349,9 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 Log.txt
+Character.cpp
+Character.h
+Helmet.vcxproj.filters
+Helmet.vcxproj
+Character.cpp
+Character.cpp
