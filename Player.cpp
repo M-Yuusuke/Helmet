@@ -1,18 +1,25 @@
 #include "DxLib.h"
 #include "Player.h"
-
+#include "Door.h"
+//ê√ìIïœêîÇÃèâä˙âª
+int Player::OriginalGraph[] = { -1,-1,-1,-1,-1,-1 };
 Player::Player()
 {
-    X = 50;
-    Y = 800;
+    X = FirstPosX;
+    Y = FirstPosY;
     Speed = 500;
     Dead = false;
     TotalGraphNum = 6;
     SideNum = 2;
     WarpNum = 3;
-    Width = 176.5f;
-    Height = 192.0f;
-    LoadDivGraph("../../Img/Player.png", TotalGraphNum, SideNum, WarpNum, Width, Height, Graph);
+    if (OriginalGraph[0] == -1)
+    {
+        LoadDivGraph("../../Img/Player.png", TotalGraphNum, SideNum, WarpNum, Width, Height, OriginalGraph);
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        Graph[i] = OriginalGraph[i];
+    }
     AnimPatternFirst = 0;
 }
 
@@ -20,17 +27,27 @@ Player::~Player()
 {
 }
 
-void Player::Update(float DeltaTime)
+void Player::Update(float DeltaTime, Door* door)
 {
-    if (CheckHitKey(KEY_INPUT_D))
+    if (X + Width <= EndPos)
     {
-        X += Speed * DeltaTime;
-        AnimPatternFirst = 3;
+        if (CheckHitKey(KEY_INPUT_D))
+        {
+            X += Speed * DeltaTime;
+            AnimPatternFirst = 3;
+        }
     }
-    if (CheckHitKey(KEY_INPUT_A))
+    else
     {
-        X -= Speed * DeltaTime;
-        AnimPatternFirst = 3;
+        Dead = door->OnDoor(X + Width);
+    }
+    if (X >= 50)
+    {
+        if (CheckHitKey(KEY_INPUT_A))
+        {
+            X -= Speed * DeltaTime;
+            AnimPatternFirst = 3;
+        }
     }
     Animation(DeltaTime);
 }
@@ -42,14 +59,5 @@ void Player::Animation(float deltaTime)
 
 void Player::Draw()
 {
-    if (Dead == false)
-    {
-        DrawGraph(X, Y, Graph[AnimFrame], TRUE);
-    }
+    DrawGraph(X, Y, Graph[AnimFrame], TRUE);
 }
-
-void Player::IsDead()
-{
-    Dead = true;
-}
-

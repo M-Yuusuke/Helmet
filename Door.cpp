@@ -5,8 +5,6 @@ Door::Door()
 {
     X = 1615;
     Y = 802;
-    Width = 176.5;
-    Height = 192;
     TotalGraphNum = 2;
     SideNum = 2;
     WarpNum = 1;
@@ -25,8 +23,25 @@ void Door::Update(float deltaTime)
    if (CoolTime <= 0)
    {
        AnimNum = GetRand(1);
+       if (AnimNum == 0)
+       {
+           Open = false;
+       }
+       else
+       {
+           Open = true;
+       }
        CoolTime = CoolTimeMax;
    }
+}
+
+bool Door::OnDoor(int PlayerX)
+{
+    if (PlayerX >= 1700 && Open)
+    {
+        return true;
+    }
+    return false;
 }
 
 

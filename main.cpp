@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "Timer.h"
+#include "Rule.h"
 #include "BackGround.h"
 #include "Door.h" 
 #include "Player.h"
@@ -19,33 +19,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     BackGround* background = new BackGround();
-    Timer* timer = new Timer();
+    Rule* rule = new Rule();
     Door* door = new Door();
     Player* player = new Player();
 
-    while (!ProcessMessage())
+    while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE))
     {
         ClearDrawScreen();
-        timer->SetNowTime();
-        door->Update(timer->GetDeltaTime());
-        player->Update(timer->GetDeltaTime());
+        rule->SetNowTime();
+        door->Update(rule->GetDeltaTime());
+        player->Update(rule->GetDeltaTime(),door);
 
         background->Draw();
         door->Draw();
         player->Draw();
 
-
-        if (CheckHitKey(KEY_INPUT_ESCAPE))
-        {
-            break;
-        }
         ScreenFlip();
-        timer->SetPrevTime();
+        rule->SetPrevTime();
     }
 
     delete background;
     delete player;
-    delete timer;
+    delete rule;
     DxLib_End();				// ＤＸライブラリ使用の終了処理 
     return 0;				// ソフトの終了  
 

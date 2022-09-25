@@ -1,15 +1,25 @@
 #pragma once
+class Door;
 class Player
 {
 public:
     Player();
     ~Player();
-    void Update(float DeltaTime);
+    void Update(float DeltaTime, Door* door);
     void Animation(float deltaTime);
     void Draw();
-    void IsDead();
+    void IsDead() { Dead = true; }
+
+    bool GetDead() { return Dead; }
 
 private:
+    static int OriginalGraph[6];
+    const int FirstPosX = 50;
+    const int FirstPosY = 800;
+    const int EndPos = 1700;
+    const float Width = 176.5f;
+    const float Height = 192.0f;
+
     int X, Y;
     int Graph[6];
 
@@ -21,8 +31,7 @@ private:
     int SideNum;
     //縦の分割数
     int WarpNum;
-    float Width;
-    float Height;
+    
     //アニメーションフレーム
     int AnimFrame;
     //アニメーション開始位置
