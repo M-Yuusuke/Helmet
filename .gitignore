@@ -355,3 +355,5 @@ Helmet.vcxproj.filters
 Helmet.vcxproj
 Character.cpp
 Character.cpp
+Character.cpp
+Character.h
