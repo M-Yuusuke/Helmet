@@ -1,4 +1,8 @@
 #pragma once
+#include<vector>
+
+using namespace std;
+class Player;
 class PlayerManager
 {
 public:
@@ -6,7 +10,6 @@ public:
     ~PlayerManager();
 
 private:
-    
-
+    vector<Player> playermanager;
 };
 

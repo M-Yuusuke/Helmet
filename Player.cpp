@@ -59,5 +59,8 @@ void Player::Animation(float deltaTime)
 
 void Player::Draw()
 {
-    DrawGraph(X, Y, Graph[AnimFrame], TRUE);
+    if (!Dead)
+    {
+        DrawGraph(X, Y, Graph[AnimFrame], TRUE);
+    }
 }

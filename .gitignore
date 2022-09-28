@@ -353,7 +353,5 @@ Character.cpp
 Character.h
 Helmet.vcxproj.filters
 Helmet.vcxproj
-Character.cpp
-Character.cpp
-Character.cpp
-Character.h
+Timer.cpp
+Timer.h
