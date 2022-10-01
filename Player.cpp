@@ -21,6 +21,8 @@ Player::Player()
     {
         Graph[i] = OriginalGraph[i];
     }
+    Reverse = false;
+    AnimFrame = 0;
     AnimPatternFirst = 0;
 }
 
@@ -28,7 +30,7 @@ Player::~Player()
 {
 }
 
-void Player::Update(float DeltaTime, Door* door)
+void Player::Update(int DeltaTime, Door* door)
 {
     if (X + Width <= EndPos)
     {
@@ -36,6 +38,7 @@ void Player::Update(float DeltaTime, Door* door)
         {
             X += Speed * DeltaTime;
             AnimPatternFirst = 3;
+            Reverse = false;
         }
     }
     else
@@ -48,20 +51,21 @@ void Player::Update(float DeltaTime, Door* door)
         {
             X -= Speed * DeltaTime;
             AnimPatternFirst = 3;
+            Reverse = true;
         }
     }
     Animation(DeltaTime);
 }
 
-void Player::Animation(float deltaTime)
+void Player::Animation(int DeltaTime)
 {
-    AnimFrame = ((int)deltaTime / 125 % 2) + AnimPatternFirst;
+    AnimFrame = ((int)DeltaTime / 125 % 2) + AnimPatternFirst;
 }
 
 void Player::Draw()
 {
     if (!Dead)
     {
-        DrawGraph(X, Y, Graph[AnimFrame], TRUE);
+        DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0,0, Graph[AnimFrame],TRUE, Reverse);
     }
 }

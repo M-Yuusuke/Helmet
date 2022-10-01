@@ -1,10 +1,8 @@
-#include <vector>
 #include "DxLib.h"
 #include "Rule.h"
 #include "BackGround.h"
 #include "Door.h"
 #include "Player.h"
-using namespace std;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -16,10 +14,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // ＤＸライブラリ初期化処理
     if (DxLib_Init() == -1)
     {
-        // エラーが起きたら直ちに終了 
+        // エラーが起きたら直ちに終了
         return -1;
     }
 
+    //各クラスのポインタ生成
     BackGround* background = new BackGround();
     Rule* rule = new Rule();
     Door* door = new Door();
@@ -27,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE))
     {
-        //ポインタの切り替え
+        //プレイヤーの再生成
         if (player->IsComeIn())
         {
             delete player;
@@ -36,9 +35,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
         ClearDrawScreen();
         rule->SetNowTime();
+
+        //更新処理郡
         door->Update(rule->GetDeltaTime());
         player->Update(rule->GetDeltaTime(),door);
 
+        //描画処理郡
         background->Draw();
         door->Draw();
         player->Draw();
@@ -48,8 +50,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     delete background;
-    delete player;
     delete rule;
+    delete door;
+    delete player;
+
     DxLib_End();				// ＤＸライブラリ使用の終了処理 
     return 0;				// ソフトの終了  
 

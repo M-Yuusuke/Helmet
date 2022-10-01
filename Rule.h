@@ -6,7 +6,7 @@ public:
     ~Rule();
     void SetNowTime() { Now = GetNowCount(); }
     void SetPrevTime() { Prev = Now; }
-    float GetDeltaTime() { return (Now - Prev) / 1000.0f; }
+    float GetDeltaTime() const { return (Now - Prev) / 1000; }
 
 private:
     float Now;
