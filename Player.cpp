@@ -9,6 +9,7 @@ Player::Player()
     Y = FirstPosY;
     Speed = 500;
     Dead = false;
+    ComeIn = false;
     TotalGraphNum = 6;
     SideNum = 2;
     WarpNum = 3;
@@ -39,7 +40,7 @@ void Player::Update(float DeltaTime, Door* door)
     }
     else
     {
-        Dead = door->OnDoor(X + Width);
+        ComeIn = door->OnDoor(X + Width);
     }
     if (X >= 50)
     {

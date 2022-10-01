@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Rule.h"
 #include "BackGround.h"
-#include "Door.h" 
+#include "Door.h"
 #include "Player.h"
 using namespace std;
 
@@ -23,34 +23,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     BackGround* background = new BackGround();
     Rule* rule = new Rule();
     Door* door = new Door();
-    Player* player;
-    int Num = 0;
-    Player* playermanager[2];
-    for (int i = 0; i < 2; i++)
-    {
-        playermanager[i] = new Player();
-    }
-    player = playermanager[Num];
-    
+    Player* player = new Player();
 
     while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE))
     {
         //ƒ|ƒCƒ“ƒ^‚ÌØ‚è‘Ö‚¦
-        if (player->GetDead())
+        if (player->IsComeIn())
         {
-            delete playermanager[Num];
-            if (Num == 0)
-            {
-                playermanager[Num] = new Player();
-                Num == 1;
-            }
-            else
-            {
-                playermanager[Num] = new Player();
-                Num = 0;
-            }
-            player = playermanager[Num];
-
+            delete player;
+            player = new Player();
         }
 
         ClearDrawScreen();

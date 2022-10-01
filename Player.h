@@ -11,6 +11,7 @@ public:
     void IsDead() { Dead = true; }
 
     bool GetDead() { return Dead; }
+    bool IsComeIn() { return ComeIn; }
 
 private:
     static int OriginalGraph[6];
@@ -24,6 +25,7 @@ private:
     int Graph[6];
 
     bool Dead;
+    bool ComeIn;
     int Speed;
     //‰æ‘œ‚Ì•ªŠ„‘”
     int TotalGraphNum;
