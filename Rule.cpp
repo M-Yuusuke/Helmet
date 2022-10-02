@@ -1,11 +1,11 @@
 #include "DxLib.h"
 #include "Rule.h"
 
-Rule::Rule()
+Rule::Rule():
+    NowTime(0),
+    PrevTime(0),
+    Score(0)
 {
-    Now = 0.0f;
-    Prev = 0.0f;
-    Score = 0;
 }
 
 Rule::~Rule()

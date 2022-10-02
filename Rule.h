@@ -4,14 +4,13 @@ class Rule
 public:
     Rule();
     ~Rule();
-    void SetNowTime() { Now = GetNowCount(); }
-    void SetPrevTime() { Prev = Now; }
-    float GetDeltaTime() const { return (Now - Prev) / 1000; }
+    void SetNowTime() { NowTime = GetNowCount(); }
+    void SetPrevTime() { PrevTime = NowTime; }
+    float GetDeltaTime() { return (NowTime - PrevTime) / 1000.0f; }
 
 private:
-    float Now;
-    float Prev;
+    int NowTime;
+    int PrevTime;
     int Score;
-
 };
 

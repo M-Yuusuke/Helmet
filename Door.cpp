@@ -9,17 +9,7 @@ Door::Door()
     SideNum = 2;
     WarpNum = 1;
     CoolTime = CoolTimeMax;
-    AnimNum = 0;
     LoadDivGraph("../../Img/Door.png", TotalGraphNum,SideNum,WarpNum, Width, Height,Graph);
-    IsOpen = false;
-}
-
-Door::~Door()
-{
-    for (int i = 0; i < 2; i++)
-    {
-        DeleteGraph(Graph[i]);
-    }
 }
 
 void Door::Draw()
@@ -27,27 +17,27 @@ void Door::Draw()
     DrawGraph(X, Y, Graph[AnimNum], TRUE);
 }
 
-void Door::Update(float deltaTime)
+void Door::Update(float DeltaTime)
 {
-   CoolTime -= deltaTime;
+   CoolTime -= DeltaTime;
    if (CoolTime <= 0)
    {
        AnimNum = GetRand(1);
        if (AnimNum == 0)
        {
-           IsOpen = false;
+           Open = false;
        }
        else
        {
-           IsOpen = true;
+           Open = true;
        }
        CoolTime = CoolTimeMax;
    }
 }
 
-bool Door::OnDoor(int PlayerX)
+bool Door::OnDoor(int PlayerX, int EndPos)
 {
-    if (PlayerX >= 1700 && IsOpen)
+    if (PlayerX >= EndPos && Open)
     {
         return true;
     }

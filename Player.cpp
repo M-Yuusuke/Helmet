@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "Player.h"
 #include "Door.h"
+
 //ê√ìIïœêîÇÃèâä˙âª
 int Player::OriginalGraph[] = { -1,-1,-1,-1,-1,-1 };
 Player::Player()
@@ -8,8 +9,6 @@ Player::Player()
     X = FirstPosX;
     Y = FirstPosY;
     Speed = 500;
-    Dead = false;
-    ComeIn = false;
     TotalGraphNum = 6;
     SideNum = 2;
     WarpNum = 3;
@@ -21,16 +20,18 @@ Player::Player()
     {
         Graph[i] = OriginalGraph[i];
     }
-    Reverse = false;
     AnimFrame = 0;
     AnimPatternFirst = 0;
+    Dead = false;
+    Goal = false;
+    Reverse = false;
 }
 
 Player::~Player()
 {
 }
 
-void Player::Update(int DeltaTime, Door* door)
+void Player::Update(float DeltaTime, Door* door)
 {
     if (X + Width <= EndPos)
     {
@@ -43,7 +44,7 @@ void Player::Update(int DeltaTime, Door* door)
     }
     else
     {
-        ComeIn = door->OnDoor(X + Width);
+        Goal = door->OnDoor(X + Width, EndPos);
     }
     if (X >= 50)
     {
@@ -54,18 +55,14 @@ void Player::Update(int DeltaTime, Door* door)
             Reverse = true;
         }
     }
-    Animation(DeltaTime);
-}
-
-void Player::Animation(int DeltaTime)
-{
     AnimFrame = ((int)DeltaTime / 125 % 2) + AnimPatternFirst;
 }
 
 void Player::Draw()
 {
-    if (!Dead)
-    {
-        DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0,0, Graph[AnimFrame],TRUE, Reverse);
-    }
+    //if (!Dead)
+    //{
+    //    DrawGraph(X, Y, Graph[AnimFrame], TRUE);
+    //}
+    DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Graph[AnimFrame], TRUE, Reverse);
 }

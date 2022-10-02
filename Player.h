@@ -1,18 +1,16 @@
 #pragma once
 class Door;
-
 class Player
 {
 public:
     Player();
     ~Player();
-    void Update(int DeltaTime, Door* door);
-    void Animation(int DeltaTime);
+    void Update(float DeltaTime, Door* door);
     void Draw();
     void IsDead() { Dead = true; }
 
-    bool GetDead() const { return Dead; }
-    bool IsComeIn() const { return ComeIn; }
+    bool GetDead() { return Dead; }
+    bool GetGoal() { return Goal; }
 
 private:
     static int OriginalGraph[6];
@@ -25,9 +23,6 @@ private:
     int X, Y;
     int Graph[6];
 
-    bool Dead;
-    //ドアに入れたらtrue
-    bool ComeIn;
     int Speed;
     //画像の分割総数
     int TotalGraphNum;
@@ -35,10 +30,13 @@ private:
     int SideNum;
     //縦の分割数
     int WarpNum;
-    //左移動　false
-    bool Reverse;
+    
     //アニメーションフレーム
     int AnimFrame;
     //アニメーション開始位置
     int AnimPatternFirst;
+    bool Dead;
+    bool Goal;
+    //右向き false
+    bool Reverse;
 };

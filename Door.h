@@ -4,14 +4,13 @@ class Door
 public:
     Door();
     ~Door();
-    void Update(float deltaTime);
-    bool OnDoor(int PlayerX);
+    void Update(float DeltaTime);
+    bool OnDoor(int PlayerX,int EndPos);
     void Draw();
 
 private:
     const float CoolTimeMax = 1.5f;
     const float Width = 176.5f, Height = 192;
-
     //‰æ‘œ‚Ì•ªŠ„‘”
     int TotalGraphNum;
     //‰¡‚Ì•ªŠ„”
@@ -22,6 +21,6 @@ private:
     int Graph[2];
     float CoolTime;
     int AnimNum;
-    bool IsOpen;
+    bool Open;
 };
 
