@@ -4,6 +4,7 @@ class Tool
 public:
     Tool();
     ~Tool();
+    void HitCheck(int PlayerX,int PlayerY,float Radius);
     void Update(float DeltaTime);
     void Draw();
 
@@ -13,7 +14,6 @@ private:
     const int Height = 150;
     const int EndPositionY = 1050;
     const double PI = 3.14;
-    
 
     struct DropTool
     {

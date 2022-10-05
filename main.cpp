@@ -23,8 +23,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     Rule* rule = new Rule();
     Door* door = new Door();
     Player* player = new Player();
-    Tool* tool = new Tool();   
+    Tool* tool = new Tool();
 
+    rule->SetStartTime();
     while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE))
     {
         //ƒ|ƒCƒ“ƒ^‚ÌØ‚è‘Ö‚¦
@@ -36,9 +37,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
         ClearDrawScreen();
         rule->SetNowTime();
+        rule->SetDeltaTime();
         //XVˆ—ŒS
         door->Update(rule->GetDeltaTime());
-        player->Update(rule->GetDeltaTime(),door);
+        player->Update(rule->GetDeltaTime(),door,tool);
         tool->Update(rule->GetDeltaTime());
 
         //•`‰æˆ—ŒS
@@ -47,7 +49,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         player->Draw();
         tool->Draw();
 
-        //DrawFormatString(0, 0,GetColor(0,0,0),"%5.4f", rule->GetDeltaTime());
+        SetFontSize(48);
+        DrawFormatString(0, 0,GetColor(0,0,0),"%d", rule->GetLimitTime());
         ScreenFlip();
         rule->SetPrevTime();
     }

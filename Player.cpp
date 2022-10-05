@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "Player.h"
 #include "Door.h"
+#include "Tool.h"
 
 //Ã“I•Ï”‚Ì‰Šú‰»
 int Player::OriginalGraph[] = { -1,-1,-1,-1,-1,-1 };
@@ -31,7 +32,7 @@ Player::~Player()
 {
 }
 
-void Player::Update(float DeltaTime, Door* door)
+void Player::Update(float DeltaTime, Door* door, Tool* tool)
 {
     if (X + Width <= EndPos)
     {
@@ -56,6 +57,7 @@ void Player::Update(float DeltaTime, Door* door)
         }
     }
     AnimFrame = ((int)DeltaTime / 125 % 2) + AnimPatternFirst;
+    tool->HitCheck(X, Y, Height);
 }
 
 void Player::Draw()

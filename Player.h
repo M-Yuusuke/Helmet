@@ -1,16 +1,17 @@
 #pragma once
 class Door;
+class Tool;
 class Player
 {
 public:
     Player();
     ~Player();
-    void Update(float DeltaTime, Door* door);
+    void Update(float DeltaTime, Door* door,Tool* tool);
     void Draw();
     void IsDead() { Dead = true; }
 
-    bool GetDead() { return Dead; }
-    bool GetGoal() { return Goal; }
+    bool GetDead() const { return Dead; }
+    bool GetGoal() const { return Goal; }
 
 private:
     static int OriginalGraph[6];
