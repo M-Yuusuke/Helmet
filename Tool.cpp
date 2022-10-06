@@ -12,22 +12,25 @@ Tool::Tool()
         Array[i].DropTime = GetRand(20);
         Array[i].Radian = 0;
         Array[i].Graph = OriginalGraph[i];
+        Array[i].Dead = false;
     }
     DropSpeed = 500;
 }
 
-void Tool::HitCheck(int PlayerX, int PlayerY, float Radius)
+bool Tool::CheckHit(int PlayerX, int PlayerY, float Radius) const
 {
     for (int i = 0; i < DropToolMax; i++)
     {
-        int Circle1 = PlayerX - Array[i].X;
-        int Circle2 = PlayerY - Array[i].Y;
-        int Dimension = sqrt(Circle1 * Circle1 + Circle2 * Circle2);
-        if (Dimension <= Radius + Width)
+        float VX = PlayerX - (Array[i].X + Width / 2);
+        float VY = PlayerY - (Array[i].Y + Height / 2);
+        float Hypotenuse = pow(VX,2) + pow(VY,2);
+        float SumRadius = Radius + (Width / 2);
+        if (Hypotenuse <= SumRadius * SumRadius)
         {
-            DrawFormatString(50, 50, GetColor(0, 0, 0),"“–‚½‚Á‚½I");
+            return true;
         }
-     }
+    }
+    return false;
 }
 
 void Tool::Update(float DeltaTime)
@@ -53,6 +56,7 @@ void Tool::Draw()
 {
     for (int i = 0; i < DropToolMax; i++)
     {
-        DrawRotaGraph(Array[i].X, Array[i].Y, 1.0, Array[i].Radian, Array[i].Graph, TRUE);
+        DrawRotaGraph(Array[i].X + Width / 2, Array[i].Y + Height / 2, 1.0, Array[i].Radian, Array[i].Graph, TRUE);
+        DrawCircle(Array[i].X + Width / 2, Array[i].Y + Height / 2, Height / 2, GetColor(0, 255, 0), FALSE);
     }
 }

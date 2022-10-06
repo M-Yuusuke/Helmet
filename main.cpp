@@ -29,15 +29,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE))
     {
         //ポインタの切り替え
-        if (player->GetGoal() || player->GetDead())
+        if (player->GetGoal())
         {
             delete player;
             player = new Player();
+            rule->AddScore();
         }
 
         ClearDrawScreen();
         rule->SetNowTime();
         rule->SetDeltaTime();
+
         //更新処理郡
         door->Update(rule->GetDeltaTime());
         player->Update(rule->GetDeltaTime(),door,tool);
@@ -50,7 +52,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         tool->Draw();
 
         SetFontSize(48);
-        DrawFormatString(0, 0,GetColor(0,0,0),"%d", rule->GetLimitTime());
+        DrawFormatString(0, 0, GetColor(0, 0, 0), "Limit:%d", rule->GetLimitTime());
+        DrawFormatString(250, 0, GetColor(0, 0, 0), "Score:%d", rule->GetScore());
         ScreenFlip();
         rule->SetPrevTime();
     }

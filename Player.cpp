@@ -56,15 +56,19 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool)
             Reverse = true;
         }
     }
+    
+    Dead = tool->CheckHit(X + Width / 2, Y + Height / 2, Height / 2);
+
+    if (Dead)
+    {
+        AnimPatternFirst = 4;
+    }
+
     AnimFrame = ((int)DeltaTime / 125 % 2) + AnimPatternFirst;
-    tool->HitCheck(X, Y, Height);
 }
 
 void Player::Draw()
 {
-    //if (!Dead)
-    //{
-    //    DrawGraph(X, Y, Graph[AnimFrame], TRUE);
-    //}
     DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Graph[AnimFrame], TRUE, Reverse);
+    DrawCircle(X + Width / 2, Y + Height / 2, Height / 2, GetColor(0, 0, 255), FALSE);
 }

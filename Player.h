@@ -8,7 +8,6 @@ public:
     ~Player();
     void Update(float DeltaTime, Door* door,Tool* tool);
     void Draw();
-    void IsDead() { Dead = true; }
 
     bool GetDead() const { return Dead; }
     bool GetGoal() const { return Goal; }
