@@ -5,6 +5,7 @@
 
 //ê√ìIïœêîÇÃèâä˙âª
 int Player::OriginalGraph[] = { -1,-1,-1,-1,-1,-1 };
+int Player::DeadNum = 0;
 Player::Player()
 {
     X = FirstPosX;
@@ -13,6 +14,7 @@ Player::Player()
     TotalGraphNum = 6;
     SideNum = 2;
     WarpNum = 3;
+    DeadFrameCount = 0;
     if (OriginalGraph[0] == -1)
     {
         LoadDivGraph("../../Img/Player.png", TotalGraphNum, SideNum, WarpNum, Width, Height, OriginalGraph);
@@ -30,6 +32,7 @@ Player::Player()
 
 Player::~Player()
 {
+
 }
 
 void Player::Update(float DeltaTime, Door* door, Tool* tool)
@@ -61,6 +64,11 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool)
 
     if (Dead)
     {
+        DeadFrameCount++;
+        if (DeadFrameCount == 1)
+        {
+            DeadNum++;
+        }
         AnimPatternFirst = 4;
     }
 

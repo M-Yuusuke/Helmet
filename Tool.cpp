@@ -9,12 +9,23 @@ Tool::Tool()
     {
         Array[i].X = 400 + 250 * i;
         Array[i].Y = Height / 2;
-        Array[i].DropTime = GetRand(20);
+        Array[i].DropTime = GetRand(500);
         Array[i].Radian = 0;
         Array[i].Graph = OriginalGraph[i];
         Array[i].Dead = false;
     }
     DropSpeed = 500;
+}
+
+Tool::~Tool()
+{
+    for (int i = 0; i < DropToolMax; i++)
+    {
+        DeleteGraph(OriginalGraph[i]);
+        DeleteGraph(Array[i].Graph);
+        OriginalGraph[i] = -1;
+        Array[i].Graph = -1;
+    }
 }
 
 bool Tool::CheckHit(int PlayerX, int PlayerY, float Radius) const
@@ -42,13 +53,13 @@ void Tool::Update(float DeltaTime)
         {
             Array[i].Y += DropSpeed * DeltaTime;
             Array[i].Radian += static_cast<float>((PI / 180) * 5);
-            if (Array[i].Y >= EndPositionY)
+            if (Array[i].Y >= EndPositionY || Array[i].Dead)
             {
                 Array[i].Y = Height / 2;
-                Array[i].DropTime = GetRand(20);
+                Array[i].DropTime = GetRand(500);
+                Array[i].Radian = 0;
             }
         }
-        
     }
 }
 

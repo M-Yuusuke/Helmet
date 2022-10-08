@@ -9,11 +9,13 @@ public:
     void Update(float DeltaTime, Door* door,Tool* tool);
     void Draw();
 
+    int GetDeadNum() const { return DeadNum; }
     bool GetDead() const { return Dead; }
     bool GetGoal() const { return Goal; }
 
 private:
     static int OriginalGraph[6];
+    static int DeadNum;
     const int FirstPosX = 50;
     const int FirstPosY = 800;
     const int EndPos = 1700;
@@ -31,6 +33,7 @@ private:
     //縦の分割数
     int WarpNum;
     
+    int DeadFrameCount;
     //アニメーションフレーム
     int AnimFrame;
     //アニメーション開始位置

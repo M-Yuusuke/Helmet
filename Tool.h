@@ -12,7 +12,7 @@ private:
     const int DropToolMax = 5;
     const int Width = 150;
     const int Height = 150;
-    const int EndPositionY = 700;
+    const int EndPositionY = 800;
     const double PI = 3.14;
 
     struct DropTool

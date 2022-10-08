@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Rule.h"
+#include "UI.h"
 #include "BackGround.h"
 #include "Door.h" 
 #include "Player.h"
@@ -19,22 +20,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return -1;
     }
 
-    BackGround* background = new BackGround();
     Rule* rule = new Rule();
+    UI* ui = new UI();
+    BackGround* background = new BackGround();
     Door* door = new Door();
     Player* player = new Player();
     Tool* tool = new Tool();
+    int End;
 
     rule->SetStartTime();
     while (!ProcessMessage() && !CheckHitKey(KEY_INPUT_ESCAPE))
     {
-        //ポインタの切り替え
+        End = rule->CheckEnd(player->GetDeadNum());
+        //プレイヤー再生成
+        if (player->GetDead())
+        {
+            delete player;
+            player = new Player();
+        }
         if (player->GetGoal())
         {
             delete player;
             player = new Player();
             rule->AddScore();
         }
+        
 
         ClearDrawScreen();
         rule->SetNowTime();
@@ -51,17 +61,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         player->Draw();
         tool->Draw();
 
-        SetFontSize(48);
-        DrawFormatString(0, 0, GetColor(0, 0, 0), "Limit:%d", rule->GetLimitTime());
-        DrawFormatString(250, 0, GetColor(0, 0, 0), "Score:%d", rule->GetScore());
+        //UI処理
+        ui->WriteLimitTime(rule->GetLimitTime());
+        ui->WriteScore(rule->GetScore());
+        ui->DrawPlayerDead(player->GetDeadNum());
+       
         ScreenFlip();
         rule->SetPrevTime();
     }
 
+    delete rule;
+    delete ui;
     delete background;
     delete player;
-    delete rule;
-    //delete tool;
+    delete tool;
+
     DxLib_End();				// ＤＸライブラリ使用の終了処理 
     return 0;				// ソフトの終了  
 

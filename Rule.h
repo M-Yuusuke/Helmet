@@ -6,6 +6,7 @@ public:
     ~Rule();
     //ŽžŠÔŠÖ˜A
     void Initialize();
+    bool CheckEnd(int PlayerDeadNum);
     void SetStartTime() { StartTime = GetNowCount(); }
     void SetNowTime() { NowTime = GetNowCount(); }
     void SetDeltaTime() { DeltaTime = (NowTime - PrevTime) / 1000.0f; }
@@ -19,13 +20,13 @@ public:
 
 private:
     const int MaxLimit = 30;
-    const int AddPoint = 5;
+    const int AddPoint = 10;
 
     int NowTime;
     int PrevTime;
     int StartTime;
-    int LimitTime;
     float DeltaTime;
     int Score;
+    bool End;
 };
 
