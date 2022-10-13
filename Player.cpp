@@ -46,10 +46,7 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool)
             Reverse = false;
         }
     }
-    else
-    {
-        Goal = door->OnDoor(X + Width, EndPos);
-    }
+
     if (X >= 50)
     {
         if (CheckHitKey(KEY_INPUT_A))

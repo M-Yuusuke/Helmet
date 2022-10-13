@@ -12,6 +12,12 @@ Door::Door()
     LoadDivGraph("../../Img/Door.png", TotalGraphNum,SideNum,WarpNum, Width, Height,Graph);
 }
 
+Door::~Door()
+{
+    DeleteGraph(Graph[0]);
+    DeleteGraph(Graph[1]);
+}
+
 void Door::Draw()
 {
     DrawGraph(X, Y, Graph[AnimNum], TRUE);
@@ -34,14 +40,3 @@ void Door::Update(float DeltaTime)
        CoolTime = CoolTimeMax;
    }
 }
-
-bool Door::OnDoor(int PlayerX, int EndPos)
-{
-    if (PlayerX >= EndPos && Open)
-    {
-        return true;
-    }
-    return false;
-}
-
-

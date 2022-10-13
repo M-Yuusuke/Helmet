@@ -1,6 +1,8 @@
 #include <math.h>
 #include "DxLib.h"
 #include "Tool.h"
+#include "Player.h"
+#include "HitCheck.h"
 
 Tool::Tool()
 {

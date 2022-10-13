@@ -5,8 +5,8 @@ public:
     Door();
     ~Door();
     void Update(float DeltaTime);
-    bool OnDoor(int PlayerX,int EndPos);
     void Draw();
+    bool IsOpen()const { return Open; }
 
 private:
     const float CoolTimeMax = 1.5f;

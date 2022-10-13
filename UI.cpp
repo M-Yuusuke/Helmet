@@ -2,14 +2,26 @@
 #include "UI.h"
 
 UI::UI():
+<<<<<<< HEAD
+    PlayerHeadGraph(LoadGraph("../../Img/DeadIcon.png")),
+    GoodUI(LoadGraph("../../Img/GoodUI.png")),
+    ExcellentUI(LoadGraph("../../Img/ExcellentUI.png")),
+    CoolTime(0),
+    Visible(false)
+=======
     Graph(LoadGraph("../../Img/DeadIcon.png"))
+>>>>>>> origin/main
 {
     SetFontSize(FontSize);
 }
 
 UI::~UI()
 {
+<<<<<<< HEAD
+    DeleteGraph(PlayerHeadGraph);
+=======
     DeleteGraph(Graph);
+>>>>>>> origin/main
 }
 
 void UI::WriteLimitTime(int LimitTime)
@@ -39,7 +51,28 @@ void UI::DrawPlayerDead(int DeadNum)
     {
         if (i != 0)
         {
+<<<<<<< HEAD
+            DrawGraph(1270 + i * IconWidth, 0, PlayerHeadGraph, TRUE);
+        }
+    }
+}
+
+void UI::DrawGoodUI(float DeltaTime)
+{
+    //DrawFormatString(0, 0, GetColor(0, 0, 0), "%f", CoolTime);
+    if (Visible && CoolTime > 0)
+    {
+        CoolTime -= DeltaTime;
+        DrawGraph(GoodUIPosX, GoodUIPosY, GoodUI, TRUE);
+    }
+    else
+    {
+        Visible = false;
+    }
+}
+=======
             DrawGraph(1270 + i * IconWidth, 0, Graph, TRUE);
         }
     }
 }
+>>>>>>> origin/main
