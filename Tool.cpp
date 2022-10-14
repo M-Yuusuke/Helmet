@@ -9,14 +9,13 @@ Tool::Tool()
     LoadDivGraph("../../Img/DropTools.png", 5, 5, 1, Width, Height, OriginalGraph);
     for (int i = 0; i < DropToolMax; i++)
     {
-        Array[i].X = 400 + 250 * i;
-        Array[i].Y = Height / 2;
-        Array[i].DropTime = GetRand(500);
+        Array[i].X = DropToolFirstPosX + 250 * i;
+        Array[i].Y = DropToolFirstPosY;
+        Array[i].DropTime = GetRand(DropCoolTimeMax);
         Array[i].Radian = 0;
         Array[i].Graph = OriginalGraph[i];
         Array[i].Dead = false;
     }
-    DropSpeed = 500;
 }
 
 Tool::~Tool()
@@ -27,6 +26,19 @@ Tool::~Tool()
         DeleteGraph(Array[i].Graph);
         OriginalGraph[i] = -1;
         Array[i].Graph = -1;
+    }
+}
+
+void Tool::Initialize()
+{
+    for (int i = 0; i < DropToolMax; i++)
+    {
+        Array[i].X = DropToolFirstPosX + 250 * i;
+        Array[i].Y = DropToolFirstPosY;
+        Array[i].DropTime = GetRand(DropCoolTimeMax);
+        Array[i].Radian = 0;
+        Array[i].Graph = OriginalGraph[i];
+        Array[i].Dead = false;
     }
 }
 
@@ -57,8 +69,8 @@ void Tool::Update(float DeltaTime)
             Array[i].Radian += static_cast<float>((PI / 180) * 5);
             if (Array[i].Y >= EndPositionY || Array[i].Dead)
             {
-                Array[i].Y = Height / 2;
-                Array[i].DropTime = GetRand(500);
+                Array[i].Y = DropToolFirstPosY;
+                Array[i].DropTime = GetRand(DropCoolTimeMax);
                 Array[i].Radian = 0;
             }
         }

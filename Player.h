@@ -7,15 +7,13 @@ public:
     Player();
     ~Player();
 
+    void Initialize();
     void Update(float DeltaTime, Door* door,Tool* tool);
     void Draw();
 
-<<<<<<< HEAD
     int GetPosX() const { return X; }
     int GetWidth()const { return Width; }
     int GetEndPos() const { return EndPos; }
-=======
->>>>>>> origin/main
     int GetDeadNum() const { return DeadNum; }
     bool GetDead() const { return Dead; }
     void IsGoal() { Goal = true; }
@@ -26,24 +24,23 @@ private:
     static int DeadNum;
     const int FirstPosX = 50;
     const int FirstPosY = 800;
+    const int SpeedMax = 500;
     const int EndPos = 1700;
+    const int TotalGraphNum = 6;
     const float Width = 176.5f;
     const float Height = 192.0f;
+    const float AnimCoolTimeMax = 0.25f;
 
     int X, Y;
     int Graph[6];
 
     int Speed;
-    //画像の分割総数
-    int TotalGraphNum;
-    //横の分割数
-    int SideNum;
-    //縦の分割数
-    int WarpNum;
     
     int DeadFrameCount;
     //アニメーションフレーム
     int AnimFrame;
+    float AnimCoolTime;
+    int AnimNum;
     //アニメーション開始位置
     int AnimPatternFirst;
     bool Dead;

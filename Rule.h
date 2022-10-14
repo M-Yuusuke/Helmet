@@ -19,11 +19,7 @@ public:
     int GetScore() const { return Score; }
 
 private:
-<<<<<<< HEAD
     const int MaxLimit = 60;
-=======
-    const int MaxLimit = 30;
->>>>>>> origin/main
     const int AddPoint = 10;
 
     int NowTime;
@@ -31,6 +27,5 @@ private:
     int StartTime;
     float DeltaTime;
     int Score;
-    bool End;
 };
 

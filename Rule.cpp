@@ -4,8 +4,7 @@
 Rule::Rule():
     NowTime(0),
     PrevTime(0),
-    Score(0),
-    End(false)
+    Score(0)
 {
 }
 
@@ -17,6 +16,8 @@ void Rule::Initialize()
 {
     NowTime = 0;
     PrevTime = 0;
+    StartTime = 0;
+    DeltaTime = 0;
     Score = 0;
 }
 

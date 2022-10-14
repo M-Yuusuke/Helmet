@@ -1,21 +1,23 @@
 #include "DxLib.h"
 #include "Door.h"
 
-Door::Door()
+Door::Door() :
+    X(DoorPositionX),
+    Y(DoorPositionY),
+    CoolTime(CoolTimeMax)
 {
-    X = 1615;
-    Y = 802;
-    TotalGraphNum = 2;
-    SideNum = 2;
-    WarpNum = 1;
-    CoolTime = CoolTimeMax;
-    LoadDivGraph("../../Img/Door.png", TotalGraphNum,SideNum,WarpNum, Width, Height,Graph);
+    LoadDivGraph("../../Img/Door.png", TotalGraphNum,2,1, Width, Height,Graph);
 }
 
 Door::~Door()
 {
     DeleteGraph(Graph[0]);
     DeleteGraph(Graph[1]);
+}
+
+void Door::Initialize()
+{
+    CoolTime = CoolTimeMax;
 }
 
 void Door::Draw()

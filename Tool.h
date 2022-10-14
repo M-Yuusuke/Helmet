@@ -6,12 +6,17 @@ class Tool
 public:
     Tool();
     ~Tool();
+    void Initialize();
     bool CheckHit(int PlayerX,int PlayerY,float Radius) const;
     void Update(float DeltaTime);
     void Draw();
 
 private:
+    const int DropToolFirstPosX = 400;
+    const int DropToolFirstPosY = 75;
     const int DropToolMax = 5;
+    const int DropSpeed = 500;
+    const int DropCoolTimeMax = 500;
     const int Width = 150;
     const int Height = 150;
     const int EndPositionY = 800;
@@ -27,7 +32,6 @@ private:
         bool Dead;
     };
     DropTool Array[5];
-    int DropSpeed;
     int OriginalGraph[5];
 };
 
