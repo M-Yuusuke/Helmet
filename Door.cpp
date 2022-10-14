@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Door.h"
+#include "Sound.h"
 
 Door::Door() :
     X(DoorPositionX),
@@ -20,17 +21,14 @@ void Door::Initialize()
     CoolTime = CoolTimeMax;
 }
 
-void Door::Draw()
-{
-    DrawGraph(X, Y, Graph[AnimNum], TRUE);
-}
 
-void Door::Update(float DeltaTime)
+void Door::Update(float DeltaTime,Sound* sound)
 {
    CoolTime -= DeltaTime;
    if (CoolTime <= 0)
    {
        AnimNum = GetRand(1);
+       OpenPrev = Open;
        if (AnimNum == 0)
        {
            Open = false;
@@ -39,6 +37,22 @@ void Door::Update(float DeltaTime)
        {
            Open = true;
        }
+       if (OpenPrev != Open)
+       {
+           if (Open)
+           {
+               sound->PlayOpenDoor();
+           }
+           else
+           {
+               sound->PlayCloseDoor();
+           }
+       }
        CoolTime = CoolTimeMax;
    }
+}
+
+void Door::Draw()
+{
+    DrawGraph(X, Y, Graph[AnimNum], TRUE);
 }

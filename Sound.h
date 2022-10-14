@@ -11,8 +11,12 @@ public:
     void PlayOver();
 
     //SE
+    void StopSE();
+    void PlayWalk();
     void PlayMiss();
     void PlayInDoor();
+    void PlayOpenDoor();
+    void PlayCloseDoor();
 
 private:
 
@@ -23,7 +27,10 @@ private:
     int GameClear;
 
     //SE
+    int Walk;
     int Miss;
     int InDoor;
+    int OpenDoor;
+    int CloseDoor;
 };
 

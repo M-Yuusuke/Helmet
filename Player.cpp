@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Door.h"
 #include "Tool.h"
+#include "Sound.h"
 
 //静的変数の初期化
 int Player::OriginalGraph[] = { -1,-1,-1,-1,-1,-1 };
@@ -40,6 +41,7 @@ void Player::Initialize()
     Y = FirstPosY;
     Speed = SpeedMax;
     DeadFrameCount = 0;
+    DeadNum = 0;
     AnimFrame = 0;
     AnimCoolTime = AnimCoolTimeMax;
     AnimNum = 0;
@@ -49,7 +51,7 @@ void Player::Initialize()
     Reverse = false;
 }
 
-void Player::Update(float DeltaTime, Door* door, Tool* tool)
+void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound)
 {
     if (X + Width <= EndPos)
     {
@@ -71,8 +73,12 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool)
         }
     }
 
-    //無操作のときに待機アニメーションに
-    if (!(CheckHitKey(KEY_INPUT_D)|| CheckHitKey(KEY_INPUT_A)))
+    //動いているときに足音を再生し、無操作のときに待機アニメーションにする
+    if (CheckHitKey(KEY_INPUT_D)|| CheckHitKey(KEY_INPUT_A))
+    {
+        sound->PlayWalk();
+    }
+    else
     {
         AnimPatternFirst = 0;
     }

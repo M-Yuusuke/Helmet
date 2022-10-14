@@ -1,11 +1,12 @@
 #pragma once
+class Sound;
 class Door
 {
 public:
     Door();
     ~Door();
     void Initialize();
-    void Update(float DeltaTime);
+    void Update(float DeltaTime, Sound* sound);
     void Draw();
     bool IsOpen()const { return Open; }
 
@@ -21,5 +22,6 @@ private:
     float CoolTime;
     int AnimNum;
     bool Open;
+    bool OpenPrev;
 };
 

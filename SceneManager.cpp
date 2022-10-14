@@ -42,6 +42,7 @@ void SceneManager::Initialize()
     player->Initialize();
     tool->Initialize();
     sound->PlayTitle();
+    WaitTimer(250);
     scene = TITLE;
 }
 
@@ -93,8 +94,8 @@ void SceneManager::GameMain()
     rule->SetDeltaTime();
 
     //更新処理郡
-    door->Update(rule->GetDeltaTime());
-    player->Update(rule->GetDeltaTime(), door, tool);
+    door->Update(rule->GetDeltaTime(),sound);
+    player->Update(rule->GetDeltaTime(), door, tool, sound);
     hitcheck->OnDoor(player, door, ui);
     tool->Update(rule->GetDeltaTime());
 
@@ -123,6 +124,7 @@ void SceneManager::Clear()
     DrawFormatString(500, 700, GetColor(255, 255, 255), "SPACEキーでタイトルへ");
     if (CheckHitKey(KEY_INPUT_SPACE))
     {
+        sound->PlayTitle();
         scene = INIT;
     }
     ScreenFlip();
@@ -136,6 +138,7 @@ void SceneManager::Over()
     DrawFormatString(500, 700, GetColor(255, 255, 255), "SPACEキーでタイトルへ");
     if (CheckHitKey(KEY_INPUT_SPACE))
     {
+        sound->PlayTitle();
         scene = INIT;
     }
     ScreenFlip();

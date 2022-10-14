@@ -1,6 +1,7 @@
 #pragma once
 class Door;
 class Tool;
+class Sound;
 class Player
 {
 public:
@@ -8,7 +9,7 @@ public:
     ~Player();
 
     void Initialize();
-    void Update(float DeltaTime, Door* door,Tool* tool);
+    void Update(float DeltaTime, Door* door, Tool* tool, Sound* sound);
     void Draw();
 
     int GetPosX() const { return X; }
