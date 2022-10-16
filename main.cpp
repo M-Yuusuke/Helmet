@@ -1,13 +1,5 @@
 #include "DxLib.h"
-#include "Rule.h"
 #include "SceneManager.h"
-#include "HitCheck.h"
-#include "UI.h"
-#include "Sound.h"
-#include "BackGround.h"
-#include "Door.h" 
-#include "Player.h"
-#include "Tool.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -24,38 +16,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     SceneManager* scenemanager = new SceneManager();
+
     while (true)
     {
         //初期化
-        while (!ProcessMessage() && scenemanager->GetScene() == 0)
-        {
-            scenemanager->Initialize();
-        }
+        scenemanager->InitializeScene();
 
         //タイトル
-        while (!ProcessMessage() && scenemanager->GetScene() == 1)
-        {
-            scenemanager->Title();
-        }
+        scenemanager->TitleScene();
 
         //ゲームメイン
-        while (!ProcessMessage() && scenemanager->GetScene() == 2)
-        {
-            scenemanager->GameMain();
-        }
+        scenemanager->GameMainScene();
 
-        //ゲームクリア
-        while (!ProcessMessage() && scenemanager->GetScene() == 3)
+        if (scenemanager->GetScene() == 3)
         {
-            scenemanager->Clear();
+            //ゲームクリア
+            scenemanager->ClearScene();
         }
-
-        //ゲームオーバー
-        while (!ProcessMessage() && scenemanager->GetScene() == 4)
+        else if (scenemanager->GetScene() == 4)
         {
-            scenemanager->Over();
+            //ゲームオーバー
+            scenemanager->OverScene();
         }
-
     }
     delete scenemanager;
 

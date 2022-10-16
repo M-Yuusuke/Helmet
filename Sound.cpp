@@ -21,38 +21,56 @@ Sound::~Sound()
 
 void Sound::PlayTitle()
 {
-    StopSoundMem(GamePlay);
-    StopSoundMem(GameOver);
-    StopSoundMem(GameClear);
+    StopSE();
+    while (!(CheckSoundMem(GamePlay) == 0 && CheckSoundMem(GameOver) == 0 && CheckSoundMem(GameClear) == 0))
+    {
+        StopSoundMem(GamePlay);
+        StopSoundMem(GameOver);
+        StopSoundMem(GameClear);
+    }
     PlaySoundMem(Title,DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::PlayGame()
 {
-    StopSoundMem(Title);
+    while (!(CheckSoundMem(Title) == 0))
+    {
+        StopSoundMem(Title);
+    }
     PlaySoundMem(GamePlay, DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::PlayClear()
 {
-    StopSoundMem(Walk);
-    StopSoundMem(Miss);
-    StopSoundMem(InDoor);
-    StopSoundMem(OpenDoor);
-    StopSoundMem(CloseDoor);
-    StopSoundMem(GamePlay);
+    StopSE();
+    while (!(CheckSoundMem(GamePlay) == 0))
+    {
+        StopSoundMem(GamePlay);
+    }
     PlaySoundMem(GameClear, DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::PlayOver()
 {
-    StopSoundMem(Walk);
-    StopSoundMem(Miss);
-    StopSoundMem(InDoor);
-    StopSoundMem(OpenDoor);
-    StopSoundMem(CloseDoor);
-    StopSoundMem(GamePlay);
+    StopSE();
+    while (!(CheckSoundMem(GamePlay) == 0))
+    {
+        StopSoundMem(GamePlay);
+    }
     PlaySoundMem(GameOver, DX_PLAYTYPE_LOOP, TRUE);
+}
+
+void Sound::StopSE()
+{
+    while (!(CheckSoundMem(Walk) == 0 && CheckSoundMem(Miss) == 0 && CheckSoundMem(InDoor) == 0 &&
+        CheckSoundMem(OpenDoor) == 0 && CheckSoundMem(CloseDoor) == 0))
+    {
+        StopSoundMem(Walk);
+        StopSoundMem(Miss);
+        StopSoundMem(InDoor);
+        StopSoundMem(OpenDoor);
+        StopSoundMem(CloseDoor);
+    }
 }
 
 void Sound::PlayWalk()

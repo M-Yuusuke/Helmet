@@ -1,4 +1,9 @@
 #pragma once
+class Initialize;
+class Title;
+class GameMain;
+class GameClear;
+class GameOver;
 class Rule;
 class HitCheck;
 class UI;
@@ -7,6 +12,7 @@ class BackGround;
 class Door;
 class Player;
 class Tool;
+
 class SceneManager
 {
 public:
@@ -14,13 +20,24 @@ public:
     ~SceneManager();
 
     int GetScene()const { return scene; }
-    void Initialize();
-    void Title();
-    void GameMain();
-    void Clear();
-    void Over();
+    void InitializeScene();
+    void TitleScene();
+    void GameMainScene();
+    void ClearScene();
+    void OverScene();
+
+    void NextScene();
+    void ChangeGameClear();
+    void ChangeGameOver();
+
+    void NewPalyer();
 
 private:
+    Initialize* initialize;
+    Title* title;
+    GameMain* gamemain;
+    GameClear* gameclear;
+    GameOver* gameover;
     Rule* rule;
     HitCheck* hitcheck;
     UI* ui;
@@ -29,6 +46,7 @@ private:
     Door* door;
     Player* player;
     Tool* tool;
+    
     enum Scene
     {
         INIT, TITLE, GAMEMAIN, CLEAR, OVER

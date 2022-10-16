@@ -1,5 +1,10 @@
 #include "DxLib.h"
 #include "SceneManager.h"
+#include "Initialize.h"
+#include "Title.h"
+#include "GameMain.h"
+#include "GameClear.h"
+#include "GameOver.h"
 #include "Rule.h"
 #include "HitCheck.h"
 #include "UI.h"
@@ -9,7 +14,12 @@
 #include "Player.h"
 #include "Tool.h"
 
-SceneManager::SceneManager():
+SceneManager::SceneManager() :
+    initialize(new Initialize()),
+    title(new Title()),
+    gamemain(new GameMain()),
+    gameclear(new GameClear()),
+    gameover(new GameOver()),
     rule(new Rule()),
     hitcheck(new HitCheck()),
     ui(new UI()),
@@ -34,113 +44,82 @@ SceneManager::~SceneManager()
     delete tool;
 }
 
-void SceneManager::Initialize()
+void SceneManager::InitializeScene()
 {
-    rule->Initialize();
-    ui->Initialize();
-    door->Initialize();
-    player->Initialize();
-    tool->Initialize();
-    sound->PlayTitle();
-    WaitTimer(250);
-    scene = TITLE;
+    while (!ProcessMessage() && scene == INIT)
+    {
+        initialize->Reset(rule, ui, door, player, tool, sound, this);
+    }
 }
 
-void SceneManager::Title()
+void SceneManager::TitleScene()
 {
-    ClearDrawScreen();
-    SetFontSize(48);
-    DrawFormatString(500, 500, GetColor(255, 255, 255), "タイトル");
-    DrawFormatString(500, 700, GetColor(255, 255, 255), "SPACEキーでゲームスタート");
-    if (CheckHitKey(KEY_INPUT_SPACE))
+    while (!ProcessMessage() && scene == TITLE)
     {
-        sound->PlayGame();
-        rule->SetStartTime();
-        sound->PlayGame();
+        title->TitleDraw(this,sound);
+    }
+}
+
+void SceneManager::GameMainScene()
+{
+    rule->SetStartTime();
+    while (!ProcessMessage() && scene == GAMEMAIN)
+    {
+        gamemain->GameLoop(this, rule, ui, hitcheck, background, door, player, tool, sound);
+    }
+}
+
+void SceneManager::ClearScene()
+{
+    while (!ProcessMessage() && scene == CLEAR)
+    {
+        gameclear->GameClearDraw(this, sound);
+    }
+}
+
+void SceneManager::OverScene()
+{
+    while (!ProcessMessage() && scene == OVER)
+    {
+        gameover->GameOverDraw(this, sound);
+    }
+}
+
+void SceneManager::NextScene()
+{
+    switch (scene)
+    {
+    case INIT:
+        scene = TITLE;
+        break;
+    case TITLE:
         scene = GAMEMAIN;
-    }
-    ScreenFlip();
-}
-
-void SceneManager::GameMain()
-{
-    if (rule->GetLimitTime() == 0 && player->GetDeadNum() <= 2)
-    {
-        sound->PlayClear();
-        scene = CLEAR;
-    }
-    if (player->GetDeadNum() == 3)
-    {
-        sound->PlayOver();
-        scene = OVER;
-    }
-    //プレイヤー再生成
-    if (player->GetDead())
-    {
-        sound->PlayMiss();
-        delete player;
-        player = new Player();
-    }
-    if (player->GetGoal())
-    {
-        sound->PlayInDoor();
-        delete player;
-        player = new Player();
-        rule->AddScore();
-    }
-
-    ClearDrawScreen();
-    rule->SetNowTime();
-    rule->SetDeltaTime();
-
-    //更新処理郡
-    door->Update(rule->GetDeltaTime(),sound);
-    player->Update(rule->GetDeltaTime(), door, tool, sound);
-    hitcheck->OnDoor(player, door, ui);
-    tool->Update(rule->GetDeltaTime());
-
-    //描画処理郡
-    background->Draw();
-    door->Draw();
-    player->Draw();
-    tool->Draw();
-
-    //UI処理
-    ui->WriteLimitTime(rule->GetLimitTime());
-    ui->WriteScore(rule->GetScore());
-    ui->DrawPlayerDead(player->GetDeadNum());
-    ui->DrawGoodUI(rule->GetDeltaTime());
-    DrawFormatString(0, 0, GetColor(255, 255, 255), "%f", rule->GetDeltaTime());
-
-    ScreenFlip();
-    rule->SetPrevTime();
-}
-
-void SceneManager::Clear()
-{
-    ClearDrawScreen();
-    SetFontSize(48);
-    DrawFormatString(500, 500, GetColor(255, 255, 255), "ゲームクリア！");
-    DrawFormatString(500, 700, GetColor(255, 255, 255), "SPACEキーでタイトルへ");
-    if (CheckHitKey(KEY_INPUT_SPACE))
-    {
-        sound->PlayTitle();
+        break;
+    case CLEAR:
         scene = INIT;
+        break;
+    case OVER:
+        scene = INIT;
+        break;
+    default:
+        break;
     }
-    ScreenFlip();
 }
 
-void SceneManager::Over()
+void SceneManager::ChangeGameClear()
 {
-    ClearDrawScreen();
-    SetFontSize(48);
-    DrawFormatString(500, 500, GetColor(255, 255, 255), "ゲームオーバー");
-    DrawFormatString(500, 700, GetColor(255, 255, 255), "SPACEキーでタイトルへ");
-    if (CheckHitKey(KEY_INPUT_SPACE))
-    {
-        sound->PlayTitle();
-        scene = INIT;
-    }
-    ScreenFlip();
+    scene = CLEAR;
+}
+
+void SceneManager::ChangeGameOver()
+{
+    scene = OVER;
+}
+
+
+void SceneManager::NewPalyer()
+{
+    delete player;
+    player = new Player();
 }
 
