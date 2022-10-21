@@ -35,12 +35,13 @@ void GameMain::GameLoop(SceneManager* scenemanager, Rule* rule,
     if (player->GetDead())
     {
         sound->PlayMiss();
-        scenemanager->NewPalyer();
+        WaitTimer(250);
+        player->NewPlayer();
     }
     if (player->GetGoal())
     {
         sound->PlayInDoor();
-        scenemanager->NewPalyer();
+        player->NewPlayer();
         rule->AddScore();
     }
 
@@ -64,7 +65,10 @@ void GameMain::GameLoop(SceneManager* scenemanager, Rule* rule,
     ui->WriteLimitTime(rule->GetLimitTime());
     ui->WriteScore(rule->GetScore());
     ui->DrawPlayerDead(player->GetDeadNum());
-    ui->DrawGoodUI(rule->GetDeltaTime());
+    if (player->GetGoal())
+    {
+        ui->DrawGoodUI(rule->GetDeltaTime());
+    }
 
     ScreenFlip();
     rule->SetPrevTime();

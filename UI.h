@@ -13,7 +13,7 @@ public:
     void DrawPlayerDead(int DeadNum);
     //–J‚ß‚éUI‚Ì•`‰æ
     void DrawGoodUI(float DeltaTime);
-    void SetVisible() { Visible = true; CoolTime = CoolTimeMax; }
+    void SetVisible() { CoolTime = CoolTimeMax; Visible = true; }
 
 private:
     const int FontSize = 48;
@@ -29,7 +29,7 @@ private:
     //–J‚ß‚éUI
     const int GoodUIPosX = 1620;
     const int GoodUIPosY = 100;
-    const int CoolTimeMax = 3;
+    const float CoolTimeMax = 3.0f;
     int GoodUI;
     float CoolTime;
     int ExcellentUI;

@@ -8,7 +8,9 @@ public:
     Player();
     ~Player();
 
+    void RandomSelectPlayerGraph();
     void Initialize();
+    void NewPlayer();
     void Update(float DeltaTime, Door* door, Tool* tool, Sound* sound);
     void Draw();
 
@@ -21,7 +23,6 @@ public:
     bool GetGoal() const { return Goal; }
 
 private:
-    static int OriginalGraph[6];
     static int DeadNum;
     const int FirstPosX = 50;
     const int FirstPosY = 800;
@@ -33,7 +34,15 @@ private:
     const float AnimCoolTimeMax = 0.25f;
 
     int X, Y;
-    int Graph[6];
+    int Player1_Graph[6];
+    int Player2_Graph[6];
+    int Player3_Graph[6];
+    int Player4_Graph[6];
+    int PlayerNum;
+    enum
+    {
+        Player1,Player2,Player3,Player4
+    };
 
     int Speed;
     

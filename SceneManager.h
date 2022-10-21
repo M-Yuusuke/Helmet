@@ -30,8 +30,6 @@ public:
     void ChangeGameClear();
     void ChangeGameOver();
 
-    void NewPalyer();
-
 private:
     Initialize* initialize;
     Title* title;

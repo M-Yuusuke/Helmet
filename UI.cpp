@@ -58,7 +58,6 @@ void UI::DrawPlayerDead(int DeadNum)
 
 void UI::DrawGoodUI(float DeltaTime)
 {
-    //DrawFormatString(0, 0, GetColor(0, 0, 0), "%f", CoolTime);
     if (Visible && CoolTime > 0)
     {
         CoolTime -= DeltaTime;

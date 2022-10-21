@@ -22,9 +22,9 @@ private:
     const int MaxLimit = 60;
     const int AddPoint = 10;
 
-    int NowTime;
-    int PrevTime;
-    int StartTime;
+    float NowTime;
+    float PrevTime;
+    float StartTime;
     float DeltaTime;
     int Score;
 };

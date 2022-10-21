@@ -73,7 +73,7 @@ void SceneManager::ClearScene()
 {
     while (!ProcessMessage() && scene == CLEAR)
     {
-        gameclear->GameClearDraw(this, sound);
+        gameclear->GameClearDraw(this, sound,rule);
     }
 }
 
@@ -81,7 +81,7 @@ void SceneManager::OverScene()
 {
     while (!ProcessMessage() && scene == OVER)
     {
-        gameover->GameOverDraw(this, sound);
+        gameover->GameOverDraw(this, sound, rule);
     }
 }
 
@@ -115,11 +115,3 @@ void SceneManager::ChangeGameOver()
 {
     scene = OVER;
 }
-
-
-void SceneManager::NewPalyer()
-{
-    delete player;
-    player = new Player();
-}
-

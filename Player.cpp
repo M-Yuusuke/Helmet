@@ -4,12 +4,11 @@
 #include "Tool.h"
 #include "Sound.h"
 
-//Ã“I•Ï”‚Ì‰Šú‰»
-int Player::OriginalGraph[] = { -1,-1,-1,-1,-1,-1 };
 int Player::DeadNum = 0;
 Player::Player():
     X(FirstPosX),
     Y(FirstPosY),
+    PlayerNum(0),
     Speed(SpeedMax),
     DeadFrameCount(0),
     AnimFrame(0),
@@ -20,28 +19,62 @@ Player::Player():
     Goal(false),
     Reverse(false)
 {
-    if (OriginalGraph[0] == -1)
-    {
-        LoadDivGraph("../../Img/Player.png", TotalGraphNum, 2, 3, Width, Height, OriginalGraph);
-    }
-    for (int i = 0; i < 6; i++)
-    {
-        Graph[i] = OriginalGraph[i];
-    }
+    LoadDivGraph("../../Img/Player1.png", TotalGraphNum, 2, 3, Width, Height, Player1_Graph);
+    LoadDivGraph("../../Img/Player2.png", TotalGraphNum, 2, 3, Width, Height, Player2_Graph);
+    LoadDivGraph("../../Img/Player3.png", TotalGraphNum, 2, 3, Width, Height, Player3_Graph);
+    LoadDivGraph("../../Img/Player4.png", TotalGraphNum, 2, 3, Width, Height, Player4_Graph);
 }
 
 Player::~Player()
 {
+}
 
+void Player::RandomSelectPlayerGraph()
+{
+    int Rand = GetRand(4);
+    switch (Rand)
+    {
+    case 0:
+        PlayerNum = Player1;
+        break;
+    case 1:
+        PlayerNum = Player2;
+        break;
+    case 2:
+        PlayerNum = Player3;
+        break;
+    case 3:
+        PlayerNum = Player4;
+        break;
+    default:
+        break;
+    }
 }
 
 void Player::Initialize()
 {
     X = FirstPosX;
     Y = FirstPosY;
+    RandomSelectPlayerGraph();
     Speed = SpeedMax;
     DeadFrameCount = 0;
     DeadNum = 0;
+    AnimFrame = 0;
+    AnimCoolTime = AnimCoolTimeMax;
+    AnimNum = 0;
+    AnimPatternFirst = 0;
+    Dead = false;
+    Goal = false;
+    Reverse = false;
+}
+
+void Player::NewPlayer()
+{
+    X = FirstPosX;
+    Y = FirstPosY;
+    RandomSelectPlayerGraph();
+    Speed = SpeedMax;
+    DeadFrameCount = 0;
     AnimFrame = 0;
     AnimCoolTime = AnimCoolTimeMax;
     AnimNum = 0;
@@ -104,6 +137,22 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound)
 
 void Player::Draw()
 {
-    DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Graph[AnimFrame], TRUE, Reverse);
+    switch (PlayerNum)
+    {
+    case Player1:
+        DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Player1_Graph[AnimFrame], TRUE, Reverse);
+        break;
+    case Player2:
+        DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Player2_Graph[AnimFrame], TRUE, Reverse);
+        break;
+    case Player3:
+        DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Player3_Graph[AnimFrame], TRUE, Reverse);
+        break;
+    case Player4:
+        DrawRotaGraph(X + Width / 2, Y + Height / 2, 1.0, 0, Player4_Graph[AnimFrame], TRUE, Reverse);
+        break;
+    default:
+        break;
+    }
     DrawCircle(X + Width / 2, Y + Height / 2, Height / 2, GetColor(0, 0, 255), FALSE);
 }
