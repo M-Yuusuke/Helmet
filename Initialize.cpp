@@ -1,6 +1,6 @@
 #include "DxLib.h"
 #include "Initialize.h"
-#include "SceneManager.h"
+#include "Scene.h"
 #include "Rule.h"
 #include "UI.h"
 #include "Sound.h"
@@ -12,7 +12,7 @@ Initialize::Initialize()
 {
 }
 
-void Initialize::Reset(Rule*rule,UI*ui,Door*door,Player*player,Tool*tool,Sound* sound,SceneManager* scenemanager)
+void Initialize::Reset(Rule*rule,UI*ui,Door*door,Player*player,Tool*tool,Sound* sound,Scene* scene)
 {
     rule->Initialize();
     ui->Initialize();
@@ -20,6 +20,6 @@ void Initialize::Reset(Rule*rule,UI*ui,Door*door,Player*player,Tool*tool,Sound* 
     player->Initialize();
     tool->Initialize();
     sound->PlayTitle();
-    WaitTimer(250);
-    scenemanager->NextScene();
+    WaitTimer(500);
+    scene->NextScene();
 }

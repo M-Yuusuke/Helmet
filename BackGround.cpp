@@ -1,19 +1,40 @@
 #include "DxLib.h"
 #include "BackGround.h"
 
-BackGround::BackGround()
+BackGround::BackGround():
+    Title(LoadGraph("Img/BackGround/Title.png")),
+    GameMain(LoadGraph("Img/BackGround/BackGround.png")),
+    GameClear(LoadGraph("Img/BackGround/GameClear.png")),
+    GameOver(LoadGraph("Img/BackGround/GameOver.png"))
 {
-    X = 0;
-    Y = 0;
-    Graph = LoadGraph("../../Img/BackGround.png");
 }
 
 BackGround::~BackGround()
 {
-    DeleteGraph(Graph);
+    DeleteGraph(GameMain);
 }
 
-void BackGround::Draw()
+void BackGround::Draw(int SceneStatus)
 {
-    DrawGraph(X, Y, Graph, FALSE);
+    
+    if (SceneStatus == 1)
+    {
+        //タイトル
+        DrawGraph(0, 0, Title, FALSE);
+    }
+    if (SceneStatus == 2)
+    {
+        //ゲームメイン
+        DrawGraph(0, 0, GameMain, FALSE);
+    }
+    else if (SceneStatus == 3)
+    {
+        //ゲームクリア
+        DrawGraph(0, 0, GameClear, FALSE);
+    }
+    else if(SceneStatus == 4)
+    {
+        //ゲームオーバー
+        DrawGraph(0, 0, GameOver, FALSE);
+    }
 }

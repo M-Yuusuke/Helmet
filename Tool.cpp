@@ -6,7 +6,7 @@
 
 Tool::Tool()
 {
-    LoadDivGraph("../../Img/DropTools.png", 5, 5, 1, Width, Height, OriginalGraph);
+    LoadDivGraph("Img/DropTools.png", 5, 5, 1, Width, Height, OriginalGraph);
     for (int i = 0; i < DropToolMax; i++)
     {
         Array[i].X = DropToolFirstPosX + 250 * i;
@@ -82,6 +82,6 @@ void Tool::Draw()
     for (int i = 0; i < DropToolMax; i++)
     {
         DrawRotaGraph(Array[i].X + Width / 2, Array[i].Y + Height / 2, 1.0, Array[i].Radian, Array[i].Graph, TRUE);
-        DrawCircle(Array[i].X + Width / 2, Array[i].Y + Height / 2, Height / 2, GetColor(0, 255, 0), FALSE);
+        //DrawCircle(Array[i].X + Width / 2, Array[i].Y + Height / 2, Height / 2, GetColor(0, 255, 0), FALSE);
     }
 }

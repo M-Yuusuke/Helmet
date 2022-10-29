@@ -7,7 +7,7 @@ Door::Door() :
     Y(DoorPositionY),
     CoolTime(CoolTimeMax)
 {
-    LoadDivGraph("../../Img/Door.png", TotalGraphNum,2,1, Width, Height,Graph);
+    LoadDivGraph("Img/Door.png", TotalGraphNum,2,1, Width, Height,Graph);
 }
 
 Door::~Door()
@@ -41,11 +41,11 @@ void Door::Update(float DeltaTime,Sound* sound)
        {
            if (Open)
            {
-               sound->PlayOpenDoor();
+               //sound->PlayOpenDoor();
            }
            else
            {
-               sound->PlayCloseDoor();
+               //sound->PlayCloseDoor();
            }
        }
        CoolTime = CoolTimeMax;

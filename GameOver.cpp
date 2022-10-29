@@ -1,24 +1,52 @@
 #include "DxLib.h"
 #include "GameOver.h"
-#include "SceneManager.h"
-#include "Rule.h"
+#include "Scene.h"
+#include "BackGround.h"
 #include "Sound.h"
+#include "Player.h"
+#include "UI.h"
+
 
 GameOver::GameOver():
-    BackGround(LoadGraph("../../Img/GameOver.png"))
+    Alpha(0)
 {
 }
 
-void GameOver::GameOverDraw(SceneManager* scenemanager, Sound* sound, Rule*rule)
+GameOver::~GameOver()
 {
-    ClearDrawScreen();
-    DrawGraph(0, 0, BackGround, TRUE);
-    SetFontSize(48);
-    DrawFormatString(800, 600, GetColor(255, 255, 0), "Score:%d", rule->GetScore());
-    if (CheckHitKey(KEY_INPUT_SPACE))
+    InitGraph();
+}
+
+void GameOver::Update(Scene* scene, Sound* sound)
+{
+    //if (CheckHitKey(KEY_INPUT_SPACE))
+    //{
+    //    sound->PlayTitle();
+    //    scene->NextScene();
+    //}
+    Alpha++;
+    if (Alpha > MaxColor)
+    {
+        Alpha = 0;
+    }
+    GetJoypadXInputState(DX_INPUT_PAD1, &input);
+    //Bƒ{ƒ^ƒ“‚ª“ü—Í‚³‚ê‚½‚ç
+    if (input.Buttons[13] == 1) 
     {
         sound->PlayTitle();
-        scenemanager->NextScene();
+        scene->NextScene();
     }
+}
+
+void GameOver::Draw(int Score, Player* player, UI* ui,BackGround* background,Scene* scene)
+{
+    ClearDrawScreen();
+    background->Draw(scene->GetScene());
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
+    //DrawGraph(550, 700, BToTitle, TRUE);
+    ui->ResultWriteBToTitle();
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    ui->ResultWriteScore(Score);
+    player->ResultDraw();
     ScreenFlip();
 }

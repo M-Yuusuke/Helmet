@@ -1,5 +1,5 @@
 #pragma once
-class SceneManager;
+class Scene;
 class Rule;
 class UI;
 class Player;
@@ -10,7 +10,7 @@ class Initialize
 {
 public:
     Initialize();
-    void Reset(Rule* rule, UI* ui, Door* door, Player* player, Tool* tool, Sound* sound, SceneManager* scenemanager);
+    void Reset(Rule* rule, UI* ui, Door* door, Player* player, Tool* tool, Sound* sound, Scene* scene);
 
 private:
     

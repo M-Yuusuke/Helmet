@@ -4,6 +4,7 @@ class Sound
 public:
     Sound();
     ~Sound();
+
     //BGM
     void PlayTitle();
     void PlayGame();
@@ -13,6 +14,7 @@ public:
     //SE
     void StopSE();
     void PlayWalk();
+    void StopWalk();
     void PlayMiss();
     void PlayInDoor();
     void PlayOpenDoor();

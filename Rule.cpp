@@ -21,11 +21,23 @@ void Rule::Initialize()
     Score = 0;
 }
 
-bool Rule::CheckEnd(int PlayerDeadNum)
+void Rule::IncreaseScore(bool IsExcellent)
 {
-    if (PlayerDeadNum == 3 || GetLimitTime() <= 0)
+    if (IsExcellent)
     {
-        return true;
+        Score += ExcellentPoint;
     }
-    return false;
+    else
+    {
+        Score += GoodPoint;
+    }
+}
+
+void Rule::DecreaseScore()
+{
+    Score -= DecreasePoint;
+    if (Score < 0)
+    {
+        Score = 0;
+    }
 }

@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "SceneManager.h"
+#include "Scene.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -15,31 +15,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return -1;
     }
 
-    SceneManager* scenemanager = new SceneManager();
+    Scene* scene = new Scene();
 
     while (true)
     {
         //初期化
-        scenemanager->InitializeScene();
+        scene->InitializeScene();
 
         //タイトル
-        scenemanager->TitleScene();
+        scene->TitleScene();
 
         //ゲームメイン
-        scenemanager->GameMainScene();
+        scene->GameMainScene();
 
-        if (scenemanager->GetScene() == 3)
-        {
-            //ゲームクリア
-            scenemanager->ClearScene();
-        }
-        else if (scenemanager->GetScene() == 4)
-        {
-            //ゲームオーバー
-            scenemanager->OverScene();
-        }
+        //リザルト画面
+        scene->ResultScene();
     }
-    delete scenemanager;
+    delete scene;
 
     DxLib_End();				// ＤＸライブラリ使用の終了処理 
     return 0;				// ソフトの終了  

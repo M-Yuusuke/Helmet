@@ -1,20 +1,19 @@
 #pragma once
 class Scene;
-class BackGround;
 class Sound;
-class Title
+class Player;
+class UI;
+class BackGround;
+class Result
 {
 public:
-    Title();
-    ~Title();
+    Result();
+    ~Result();
     void Update(Scene* scene, Sound* sound);
-    void Draw(BackGround* background, Scene* scene);
-
+    void Draw(int Score, Player* player, UI* ui, BackGround* background, Scene* scene);
 private:
     const int MaxColor = 255;
-    int BToPlay;
     int Alpha;
-
     //ゲームパッドステータス
     XINPUT_STATE input;
 };

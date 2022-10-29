@@ -4,9 +4,12 @@ class BackGround
 public:
     BackGround();
     ~BackGround();
-    void Draw();
+    void Draw(int SceneStatus);
+
 private:
-    int X, Y;
-    int Graph;
+    int Title;
+    int GameMain;
+    int GameClear;
+    int GameOver;
 };
 

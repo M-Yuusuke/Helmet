@@ -13,10 +13,10 @@ public:
 
 private:
     const int DropToolFirstPosX = 400;
-    const int DropToolFirstPosY = 75;
+    const int DropToolFirstPosY = 95;
     const int DropToolMax = 5;
     const int DropSpeed = 500;
-    const int DropCoolTimeMax = 500;
+    const float DropCoolTimeMax = 7;
     const int Width = 150;
     const int Height = 150;
     const int EndPositionY = 800;
@@ -26,7 +26,7 @@ private:
     {
         int X;
         int Y;
-        int DropTime;
+        float DropTime;
         float Radian;
         int Graph;
         bool Dead;

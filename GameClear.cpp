@@ -1,23 +1,50 @@
 #include "DxLib.h"
 #include "GameClear.h"
-#include "SceneManager.h"
-#include "Rule.h"
+#include "Scene.h"
+#include "BackGround.h"
 #include "Sound.h"
+#include "Player.h"
+#include "UI.h"
 
 GameClear::GameClear():
-    BackGround(LoadGraph("../../Img/GameClear.png"))
+    Alpha(0)
 {
 }
 
-void GameClear::GameClearDraw(SceneManager* scenemanager,Sound* sound, Rule* rule)
+GameClear::~GameClear()
+{
+}
+
+void GameClear::Update(Scene* scene, Sound* sound)
+{
+    //if (CheckHitKey(KEY_INPUT_SPACE))
+    //{
+    //    sound->PlayTitle();
+    //    scene->NextScene();
+    //}
+    Alpha++;
+    if (Alpha > MaxColor)
+    {
+        Alpha = 0;
+    }
+    GetJoypadXInputState(DX_INPUT_PAD1, &input);
+    //Bƒ{ƒ^ƒ“‚ª“ü—Í‚³‚ê‚½‚ç
+    if (input.Buttons[13] == 1)
+    {
+        //sound->PlayTitle();
+        scene->NextScene();
+    }
+}
+
+void GameClear::Draw(int Score, Player* player, UI* ui,BackGround* background,Scene* scene)
 {
     ClearDrawScreen();
-    DrawGraph(0, 0, BackGround, TRUE);
-    DrawFormatString(600, 800, GetColor(255, 255, 0), "Score:%d", rule->GetScore());
-    if (CheckHitKey(KEY_INPUT_SPACE))
-    {
-        sound->PlayTitle();
-        scenemanager->NextScene();
-    }
+    background->Draw(scene->GetScene());
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
+    //DrawGraph(550, 700, BToTitle, TRUE);
+    ui->ResultWriteBToTitle();
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    ui->ResultWriteScore(Score);
+    player->ResultDraw();
     ScreenFlip();
 }

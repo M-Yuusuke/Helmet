@@ -1,21 +1,21 @@
 #include "DxLib.h"
-#include "Title.h"
+#include "Result.h"
 #include "Scene.h"
 #include "BackGround.h"
 #include "Sound.h"
+#include "Player.h"
+#include "UI.h"
 
-Title::Title():
-    Alpha(0),
-    BToPlay(LoadGraph("Img/BToPlay.png"))
+Result::Result():
+    Alpha(0)
 {
 }
 
-Title::~Title()
+Result::~Result()
 {
-    InitGraph();
 }
 
-void Title::Update(Scene* scene, Sound* sound)
+void Result::Update(Scene* scene, Sound* sound)
 {
     Alpha++;
     if (Alpha > MaxColor)
@@ -26,22 +26,20 @@ void Title::Update(Scene* scene, Sound* sound)
     //Bƒ{ƒ^ƒ“‚ª“ü—Í‚³‚ê‚½‚ç
     if (input.Buttons[13] == 1)
     {
-        sound->PlayGame();
+        //sound->PlayTitle();
         scene->NextScene();
     }
 }
 
-void Title::Draw(BackGround* background,Scene* scene)
+void Result::Draw(int Score, Player* player, UI* ui, BackGround* background, Scene* scene)
 {
     ClearDrawScreen();
     background->Draw(scene->GetScene());
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
-    DrawGraph(550, 700, BToPlay, TRUE);
+    //DrawGraph(550, 700, BToTitle, TRUE);
+    ui->ResultWriteBToTitle();
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    //if (CheckHitKey(KEY_INPUT_SPACE))
-    //{
-    //    sound->PlayGame();
-    //    scene->NextScene();
-    //}
+    ui->ResultWriteScore(Score);
+    player->ResultDraw();
     ScreenFlip();
 }

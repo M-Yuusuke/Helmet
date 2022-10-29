@@ -1,8 +1,9 @@
 #include "DxLib.h"
 #include "GameMain.h"
-#include "SceneManager.h"
+#include "Scene.h"
 #include "Rule.h"
 #include "UI.h"
+#include "Effect.h"
 #include "HitCheck.h"
 #include "BackGround.h"
 #include "Door.h"
@@ -14,21 +15,21 @@ GameMain::GameMain()
 {
 }
 
-void GameMain::GameLoop(SceneManager* scenemanager, Rule* rule,
-                        UI* ui, HitCheck* hitcheck, BackGround* background,
-                        Door* door, Player* player, Tool* tool, Sound* sound)
+void GameMain::Update(Scene* scene, Rule* rule, UI* ui, Effect* effect, HitCheck* hitcheck, Door* door, Player* player, Tool* tool, Sound* sound)
 {
     //ゲームクリア
-    if (rule->GetLimitTime() == 0 && player->GetDeadNum() <= 2)
+    if (rule->GetLimitTime() <= 0 && player->GetLifeNum() >= 1)
     {
         sound->PlayClear();
-        scenemanager->ChangeGameClear();
+        player->ResultRandomPlayer();
+        scene->ChangeGameClear();
     }
     //ゲームオーバー
-    if (player->GetDeadNum() == 3)
+    if (player->GetLifeNum() == 0)
     {
         sound->PlayOver();
-        scenemanager->ChangeGameOver();
+        player->ResultRandomPlayer();
+        scene->ChangeGameOver();
     }
 
     //プレイヤー再生成
@@ -36,13 +37,15 @@ void GameMain::GameLoop(SceneManager* scenemanager, Rule* rule,
     {
         sound->PlayMiss();
         WaitTimer(250);
+        rule->DecreaseScore();
         player->NewPlayer();
     }
     if (player->GetGoal())
     {
         sound->PlayInDoor();
+        ui->SetVisible();
         player->NewPlayer();
-        rule->AddScore();
+        rule->IncreaseScore(ui->GetExcellentUIVisible());
     }
 
     ClearDrawScreen();
@@ -52,11 +55,17 @@ void GameMain::GameLoop(SceneManager* scenemanager, Rule* rule,
     //更新処理郡
     door->Update(rule->GetDeltaTime(), sound);
     player->Update(rule->GetDeltaTime(), door, tool, sound);
-    hitcheck->OnDoor(player, door, ui);
+    hitcheck->OnDoor(player, door, effect);
     tool->Update(rule->GetDeltaTime());
+    ui->Update(rule->GetDeltaTime());
+    effect->Update(rule->GetDeltaTime());
+}
 
+void GameMain::Draw(Rule* rule, UI* ui, Effect* effect, BackGround* background,
+                    Door* door, Player* player, Tool* tool,Scene* scene)
+{
     //描画処理郡
-    background->Draw();
+    background->Draw(scene->GetScene());
     door->Draw();
     player->Draw();
     tool->Draw();
@@ -64,11 +73,10 @@ void GameMain::GameLoop(SceneManager* scenemanager, Rule* rule,
     //UI処理
     ui->WriteLimitTime(rule->GetLimitTime());
     ui->WriteScore(rule->GetScore());
-    ui->DrawPlayerDead(player->GetDeadNum());
-    if (player->GetGoal())
-    {
-        ui->DrawGoodUI(rule->GetDeltaTime());
-    }
+    ui->DrawPlayerDead(player->GetLifeNum());
+    ui->DrawPraise();
+
+    effect->Draw();
 
     ScreenFlip();
     rule->SetPrevTime();

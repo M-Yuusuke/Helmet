@@ -1,4 +1,7 @@
 #pragma once
+#include<vector>
+using namespace std;
+
 class Door;
 class Tool;
 class Sound;
@@ -13,17 +16,20 @@ public:
     void NewPlayer();
     void Update(float DeltaTime, Door* door, Tool* tool, Sound* sound);
     void Draw();
+    void ResultRandomPlayer();
+    void ResultDraw();
 
     int GetPosX() const { return X; }
-    int GetWidth()const { return Width; }
+    float GetWidth()const { return Width; }
     int GetEndPos() const { return EndPos; }
-    int GetDeadNum() const { return DeadNum; }
+    int GetLifeNum() const { return LifeNum; }
     bool GetDead() const { return Dead; }
-    void IsGoal() { Goal = true; }
+    void IsGoal() { Goal = true; GoalNum++;}
     bool GetGoal() const { return Goal; }
 
 private:
-    static int DeadNum;
+    static int LifeNum;
+    const int MaxLifeNum = 3;
     const int FirstPosX = 50;
     const int FirstPosY = 800;
     const int SpeedMax = 500;
@@ -43,7 +49,7 @@ private:
     {
         Player1,Player2,Player3,Player4
     };
-
+    int GoalNum;
     int Speed;
     
     int DeadFrameCount;
@@ -55,6 +61,12 @@ private:
     int AnimPatternFirst;
     bool Dead;
     bool Goal;
+
+    //ゲームパッドステータス
+    XINPUT_STATE input;
     //右向き false
     bool Reverse;
+
+    //リザルト画面に表示するプレイヤーの番号を記録する配列
+    vector<int> PlayerContainer;
 };

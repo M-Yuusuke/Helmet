@@ -1,13 +1,21 @@
 #pragma once
-class SceneManager;
+class Scene;
+class BackGround;
 class Sound;
-class Rule;
+class Player;
+class UI;
 class GameOver
 {
 public:
     GameOver();
-    void GameOverDraw(SceneManager* scenemanager,Sound*sound, Rule* rule);
+    ~GameOver();
+    void Update(Scene* scene, Sound* sound);
+    void Draw(int Score, Player* player, UI* ui, BackGround* background, Scene* scene);
+
 private:
-    int BackGround;
+    const int MaxColor = 255;
+    int Alpha;
+    //ゲームパッドステータス
+    XINPUT_STATE input;
 };
 
