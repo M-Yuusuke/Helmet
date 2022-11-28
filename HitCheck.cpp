@@ -5,12 +5,27 @@
 #include "Tool.h"
 #include "Effect.h"
 
+HitCheck* HitCheck::Instance = nullptr;
 HitCheck::HitCheck()
 {
 }
 
 HitCheck::~HitCheck()
 {
+}
+
+void HitCheck::Create()
+{
+    if (!Instance)
+    {
+        Instance = new HitCheck;
+    }
+}
+
+void HitCheck::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
 }
 
 //ドアとプレイヤーの当たり判定

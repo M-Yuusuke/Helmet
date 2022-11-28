@@ -13,6 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{ff8234fc-3d2b-4541-b9f0-a2fdc739e3b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Initialize">
+      <UniqueIdentifier>{1435b7d4-fc4c-456f-8d2d-7f5823e3f86d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Title">
+      <UniqueIdentifier>{0fa0334c-c607-4a33-b5bb-2bfbc27346c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameMain">
+      <UniqueIdentifier>{cc6e5f15-5da0-4976-b0ed-7b92594b1757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Result">
+      <UniqueIdentifier>{c5c13817-2fc6-4d05-a060-8d9bf04c0d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneBase">
+      <UniqueIdentifier>{f5356759-c9ad-404f-90e4-0905227156cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneManager">
+      <UniqueIdentifier>{bf513f69-5d5a-4741-85c1-e2a5e22f067a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,14 +45,41 @@
     <ClCompile Include="Door.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Rule.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Tool.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="HitCheck.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Initialize.cpp">
+      <Filter>Scene\Initialize</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>Scene\GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>Scene\SceneBase</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scene\SceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,14 +89,41 @@
     <ClInclude Include="Door.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Rule.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Tool.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HitCheck.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Initialize.h">
+      <Filter>Scene\Initialize</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMain.h">
+      <Filter>Scene\GameMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>Scene\SceneBase</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scene\SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

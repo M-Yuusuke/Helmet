@@ -1,6 +1,6 @@
 #include "DxLib.h"
 #include "Initialize.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "Rule.h"
 #include "UI.h"
 #include "Sound.h"
@@ -8,11 +8,30 @@
 #include "Player.h"
 #include "Tool.h"
 
+Initialize* Initialize::Instance = nullptr;
 Initialize::Initialize()
 {
 }
 
-void Initialize::Reset(Rule*rule,UI*ui,Door*door,Player*player,Tool*tool,Sound* sound,Scene* scene)
+Initialize::~Initialize()
+{
+}
+
+void Initialize::Create()
+{
+    if (!Instance)
+    {
+        Instance = new Initialize;
+    }
+}
+
+void Initialize::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
+SceneBase* Initialize::Update(SceneManager* sceneManager)
 {
     rule->Initialize();
     ui->Initialize();
@@ -20,6 +39,7 @@ void Initialize::Reset(Rule*rule,UI*ui,Door*door,Player*player,Tool*tool,Sound* 
     player->Initialize();
     tool->Initialize();
     sound->PlayTitle();
-    WaitTimer(500);
-    scene->NextScene();
+    return sceneManager->GetNextScene(this);
+    //delete this;
+    //return new Title;
 }

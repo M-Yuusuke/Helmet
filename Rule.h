@@ -1,13 +1,19 @@
 #pragma once
+#include "DxLib.h"
+class Player;
+class Sound;
 class Rule
 {
 public:
-    Rule();
-    ~Rule();
+    static void Create();
+    static void Destroy();
+    static Rule* GetInstance() { return Instance; }
+
+    int CheckClear(Player* player,Sound* sound);
     //ŽžŠÔŠÖ˜A
     void Initialize();
-    void SetStartTime() { StartTime = GetNowCount(); }
     void SetNowTime() { NowTime = GetNowCount(); }
+    static void SetStartTime() { StartTime = GetNowCount(); }
     void SetDeltaTime() { DeltaTime = (NowTime - PrevTime) / 1000.0f; }
     void SetPrevTime() { PrevTime = NowTime; }
     float GetLimitTime() const { return MaxLimit - (NowTime - StartTime) / 1000.0f; }
@@ -18,7 +24,13 @@ public:
     void DecreaseScore();
     int GetScore() const { return Score; }
 
+    bool IsClear()const { return Clear; }
+
 private:
+    Rule();
+    ~Rule();
+    static Rule* Instance;
+
     const int MaxLimit = 60;
     const int GoodPoint = 10;
     const int ExcellentPoint = 30;
@@ -26,8 +38,9 @@ private:
 
     float NowTime;
     float PrevTime;
-    float StartTime;
+    static float StartTime;
     float DeltaTime;
     int Score;
+    bool Clear;
 };
 

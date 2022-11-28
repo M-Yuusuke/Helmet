@@ -1,18 +1,16 @@
 #pragma once
-class Scene;
-class Rule;
-class UI;
-class Player;
-class Tool;
-class Door;
-class Sound;
-class Initialize 
+#include"SceneBase.h"
+class Initialize : public SceneBase
 {
 public:
-    Initialize();
-    void Reset(Rule* rule, UI* ui, Door* door, Player* player, Tool* tool, Sound* sound, Scene* scene);
+    static void Create();
+    static void Destroy();
+    SceneBase* Update(SceneManager* sceneManager);
 
+    static Initialize* GetInstance() { return Instance; }
 private:
-    
+    Initialize();
+    ~Initialize();
+    static Initialize* Instance;
 };
 

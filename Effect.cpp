@@ -1,14 +1,15 @@
 #include "DxLib.h"
 #include "Effect.h"
 
+Effect* Effect::Instance = nullptr;
 Effect::Effect() :
+    Damage(LoadGraph("Img/DamageEffect.png")),
     AnimCoolTime(0),
     AnimNum(0),
-    AnimFrame(0),
     VisibleTime(0),
     IsVisible(false)
 {
-    LoadDivGraph("Img/Effect.png", 9, 9, 1, 128, 128, Graph);
+    LoadDivGraph("Img/Effect.png", TotalGraphNum, TotalGraphNum, 1, GraphSize, GraphSize, Graph);
 }
 
 Effect::~Effect()
@@ -16,12 +17,34 @@ Effect::~Effect()
     InitGraph();
 }
 
+void Effect::OnDamage(float PlayerX, float PlayerY)
+{
+    IsDamage = true;
+    DamageVisibleTime = DamageCoolTimeMax;
+    X = PlayerX - 100;
+    Y = PlayerY - 100;
+}
+
+void Effect::Create()
+{
+    if (!Instance)
+    {
+        Instance = new Effect;
+    }
+}
+
+void Effect::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
 void Effect::Update(float DeltaTime)
 {
     if (IsVisible)
     {
         VisibleTime += DeltaTime;
-        if (VisibleTime >= 1.125f)
+        if (VisibleTime >= AnimCoolTimeMax * TotalGraphNum)
         {
             IsVisible = false;
             VisibleTime = 0;
@@ -31,7 +54,15 @@ void Effect::Update(float DeltaTime)
             AnimNum++;
             AnimCoolTime = AnimCoolTimeMax;
         }
-        AnimFrame = (AnimNum % 9);
+        AnimNum %= TotalGraphNum;
+    }
+    if (IsDamage)
+    {
+        DamageVisibleTime -= DeltaTime;
+        if (DamageVisibleTime <= 0)
+        {
+            IsDamage = false;
+        }
     }
 }
 
@@ -39,6 +70,10 @@ void Effect::Draw()
 {
     if (IsVisible)
     {
-        DrawGraph(1615,800,Graph[AnimFrame],TRUE);
+        DrawGraph(EffectPosX, EffectPosY, Graph[AnimNum], TRUE);
+    }
+    if (IsDamage)
+    {
+        DrawGraph(X, Y, Damage, TRUE);
     }
 }

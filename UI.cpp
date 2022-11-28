@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "UI.h"
 
+UI* UI::Instance = nullptr;
 UI::UI():
     PlayerHeadGraph(LoadGraph("Img/DeadIcon.png")),
     GoodUI(LoadGraph("Img/GoodUI.png")),
@@ -38,14 +39,36 @@ UI::~UI()
     }
 }
 
+void UI::Create()
+{
+    if (!Instance)
+    {
+        Instance = new UI;
+    }
+}
+
+void UI::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
 void UI::Initialize()
 {
     CoolTime = 0;
     SetFontSize(FontSize);
 }
 
+void UI::TitleWriteBToPlay()
+{
+    SetFontSize(160);
+    DrawString(ResultUIPosX, 800, "B", GetColor(255, 0, 0));
+    DrawString(ResultUIPosX, 800, "  To Play", GetColor(255, 255, 255));
+}
+
 void UI::WriteLimitTime(int LimitTime)
 {
+    SetFontSize(FontSize);
     if (LimitTime >= 0)
     {
         DrawFormatString(LimitTimePosX, UIPosY, GetColor(0, 0, 0), "Limit:%d", LimitTime);
@@ -95,6 +118,11 @@ void UI::DrawPraise()
     if (ExcellentUIVisible)
     {
         DrawGraph(GoodUIPosX, GoodUIPosY, ExcellentUI, TRUE);
+    }
+    if (GoodUIVisible || ExcellentUIVisible)
+    {
+        //ƒ[ƒ^‚Ì•Ï“®•”•ª•`‰æ
+        DrawBox(MeterPosX, MeterPosY, MeterPosX + (CoolTime * 50), MeterPosY + MeterHeight, GetColor(00, 00, 255), TRUE);
     }
 }
 

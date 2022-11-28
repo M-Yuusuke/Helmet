@@ -3,7 +3,9 @@
 #include "Tool.h"
 #include "Player.h"
 #include "HitCheck.h"
+#include "Effect.h"
 
+Tool* Tool::Instance = nullptr;
 Tool::Tool()
 {
     LoadDivGraph("Img/DropTools.png", 5, 5, 1, Width, Height, OriginalGraph);
@@ -29,6 +31,20 @@ Tool::~Tool()
     }
 }
 
+void Tool::Create()
+{
+    if (!Instance)
+    {
+        Instance = new Tool;
+    }
+}
+
+void Tool::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
 void Tool::Initialize()
 {
     for (int i = 0; i < DropToolMax; i++)
@@ -42,7 +58,7 @@ void Tool::Initialize()
     }
 }
 
-bool Tool::CheckHit(int PlayerX, int PlayerY, float Radius) const
+bool Tool::CheckHit(int PlayerX, int PlayerY, float Radius,Effect* effect) const
 {
     for (int i = 0; i < DropToolMax; i++)
     {
@@ -52,6 +68,7 @@ bool Tool::CheckHit(int PlayerX, int PlayerY, float Radius) const
         float SumRadius = Radius + (Width / 2);
         if (Hypotenuse <= SumRadius * SumRadius)
         {
+            effect->OnDamage(PlayerX, PlayerY);
             return true;
         }
     }

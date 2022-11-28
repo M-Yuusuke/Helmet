@@ -2,10 +2,12 @@
 #include "Door.h"
 #include "Sound.h"
 
+Door* Door::Instance = nullptr;
 Door::Door() :
-    X(DoorPositionX),
-    Y(DoorPositionY),
-    CoolTime(CoolTimeMax)
+    CoolTime(CoolTimeMax),
+    AnimNum(0),
+    Open(false),
+    OpenPrev(false)
 {
     LoadDivGraph("Img/Door.png", TotalGraphNum,2,1, Width, Height,Graph);
 }
@@ -16,9 +18,26 @@ Door::~Door()
     DeleteGraph(Graph[1]);
 }
 
+void Door::Create()
+{
+    if (!Instance)
+    {
+        Instance = new Door;
+    }
+}
+
+void Door::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
 void Door::Initialize()
 {
     CoolTime = CoolTimeMax;
+    AnimNum = 0;
+    Open = false;
+    OpenPrev = false;
 }
 
 
@@ -41,11 +60,11 @@ void Door::Update(float DeltaTime,Sound* sound)
        {
            if (Open)
            {
-               //sound->PlayOpenDoor();
+               sound->PlayOpenDoor();
            }
            else
            {
-               //sound->PlayCloseDoor();
+               sound->PlayCloseDoor();
            }
        }
        CoolTime = CoolTimeMax;
@@ -54,5 +73,5 @@ void Door::Update(float DeltaTime,Sound* sound)
 
 void Door::Draw()
 {
-    DrawGraph(X, Y, Graph[AnimNum], TRUE);
+    DrawGraph(DoorPosX, DoorPosY, Graph[AnimNum], TRUE);
 }

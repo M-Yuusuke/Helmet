@@ -1,25 +1,19 @@
 #pragma once
-class Scene;
-class Rule;
-class UI;
-class Effect;
-class HitCheck;
-class BackGround;
-class Door;
-class Player;
-class Tool;
-class Sound;
-
-class GameMain
+#include "SceneBase.h"
+class SceneManager;
+class GameMain:public SceneBase
 {
 public:
-    GameMain();
-    void Update(Scene* scene, Rule* rule,
-        UI* ui, Effect* effect, HitCheck* hitcheck,
-        Door* door, Player* player, Tool* tool, Sound* sound);
+    static void Create();
+    static void Destroy();
+    SceneBase* Update(SceneManager* sceneManager);
+    void Draw()override;
 
-    void Draw( Rule* rule,UI* ui, Effect* effect,  BackGround* background,
-        Door* door, Player* player, Tool* tool, Scene* scene);
+    static GameMain* GetInstance() { return Instance; }
 private:
+    GameMain();
+    ~GameMain();
+    static GameMain* Instance;
+    int Background = -1;
 };
 

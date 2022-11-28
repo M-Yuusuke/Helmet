@@ -4,7 +4,9 @@
 #include "Door.h"
 #include "Tool.h"
 #include "Sound.h"
+#include "Effect.h"
 
+Player* Player::Instance = nullptr;
 int Player::LifeNum = 0;
 Player::Player():
     X(FirstPosX),
@@ -29,6 +31,20 @@ Player::Player():
 
 Player::~Player()
 {
+}
+
+void Player::Create()
+{
+    if (!Instance)
+    {
+        Instance = new Player;
+    }
+}
+
+void Player::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
 }
 
 void Player::RandomSelectPlayerGraph()
@@ -89,19 +105,14 @@ void Player::NewPlayer()
     Reverse = false;
 }
 
-void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound)
+void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound, Effect* effect)
 {
     GetJoypadXInputState(DX_INPUT_PAD1, &input);
     if (X + Width <= EndPos)
     {
-        //if (CheckHitKey(KEY_INPUT_D))
-        //{
-        //    X += Speed * DeltaTime;
-        //    AnimPatternFirst = 2;
-        //    Reverse = false;
-        //}
+
         //左スティックが右に倒す or 十字キー右を入力したとき
-        if (input.ThumbLX > 0 || input.Buttons[XINPUT_BUTTON_DPAD_RIGHT] == 1)
+        if (input.ThumbLX > 0 || input.Buttons[XINPUT_BUTTON_DPAD_RIGHT] == 1 || CheckHitKey(KEY_INPUT_D))
         {
             X += Speed * DeltaTime;
             AnimPatternFirst = 2;
@@ -111,14 +122,8 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound)
 
     if (X >= 50)
     {
-        //if (CheckHitKey(KEY_INPUT_A))
-        //{
-        //    X -= Speed * DeltaTime;
-        //    AnimPatternFirst = 2;
-        //    Reverse = true;
-        //}
         //左スティックが左に倒す or 十字キー左を入力したとき
-        if (input.ThumbLX < 0 || input.Buttons[XINPUT_BUTTON_DPAD_LEFT] == 1)
+        if (input.ThumbLX < 0 || input.Buttons[XINPUT_BUTTON_DPAD_LEFT] == 1 || CheckHitKey(KEY_INPUT_A))
         {
             X -= Speed * DeltaTime;
             AnimPatternFirst = 2;
@@ -126,19 +131,10 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound)
         }
     }
 
-    //動いているときに足音を再生し、無操作のときに待機アニメーションにする
-    //if (CheckHitKey(KEY_INPUT_D)|| CheckHitKey(KEY_INPUT_A))
-    //{
-    //    sound->PlayWalk();
-    //}
-    //else
-    //{
-    //    AnimPatternFirst = 0;
-    //}
-
     //入力されていれば歩くSEを再生
-    if (input.ThumbLX != 0|| input.Buttons[XINPUT_BUTTON_DPAD_LEFT] == 1||
-        input.Buttons[XINPUT_BUTTON_DPAD_RIGHT] == 1)
+    if ((input.ThumbLX != 0|| input.Buttons[XINPUT_BUTTON_DPAD_LEFT] == 1||
+        input.Buttons[XINPUT_BUTTON_DPAD_RIGHT] == 1)||
+        (CheckHitKey(KEY_INPUT_D) || CheckHitKey(KEY_INPUT_A)))
     {
         sound->PlayWalk();
     }
@@ -148,7 +144,7 @@ void Player::Update(float DeltaTime, Door* door, Tool* tool,Sound* sound)
         AnimPatternFirst = 0;
     }
 
-    Dead = tool->CheckHit(X + Width / 2, Y + Height / 2, Height / 2);
+    Dead = tool->CheckHit(X + Width / 2, Y + Height / 2, Height / 2, effect);
 
     if (Dead)
     {
@@ -189,6 +185,11 @@ void Player::Draw()
     //DrawCircle(X + Width / 2, Y + Height / 2, Height / 2, GetColor(0, 0, 255), FALSE);
 }
 
+
+
+//--------------------------------------------------------------------//
+//リザルト画面
+//--------------------------------------------------------------------//
 void Player::ResultRandomPlayer()
 {
     for (int i = 0; i < GoalNum; i++)
@@ -204,16 +205,16 @@ void Player::ResultDraw()
         switch (PlayerContainer[i])
         {
         case Player1:
-            DrawRotaGraph(750 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player1_Graph[0], TRUE);
+            DrawRotaGraph(500 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player1_Graph[0], TRUE);
             break;
         case Player2:
-            DrawRotaGraph(750 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player2_Graph[0], TRUE);
+            DrawRotaGraph(500 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player2_Graph[0], TRUE);
             break;
         case Player3:
-            DrawRotaGraph(750 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player3_Graph[0], TRUE);
+            DrawRotaGraph(500 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player3_Graph[0], TRUE);
             break;
         case Player4:
-            DrawRotaGraph(750 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player4_Graph[0], TRUE);
+            DrawRotaGraph(500 + Width / 2 * i, 1080 - Height / 2, 0.5, 0, Player4_Graph[0], TRUE);
             break;
         default:
             break;

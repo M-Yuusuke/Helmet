@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "Sound.h"
 
+Sound* Sound::Instance = nullptr;
 Sound::Sound():
     Title(LoadSoundMem("Sound/BGM/Title.ogg")),
     GamePlay(LoadSoundMem("Sound/BGM/GamePlay.ogg")),
@@ -11,7 +12,6 @@ Sound::Sound():
     InDoor(LoadSoundMem("Sound/SE/InDoor.ogg")),
     OpenDoor(LoadSoundMem("Sound/SE/OpenDoor.mp3")),
     CloseDoor(LoadSoundMem("Sound/SE/CloseDoor.mp3"))
-
 {
 }
 
@@ -20,51 +20,65 @@ Sound::~Sound()
     InitSoundMem();
 }
 
+void Sound::Create()
+{
+    if (!Instance)
+    {
+        Instance = new Sound;
+    }
+}
+
+void Sound::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
 void Sound::PlayTitle()
 {
     StopSE();
-    while (!(CheckSoundMem(GamePlay) == 0 && CheckSoundMem(GameOver) == 0 && CheckSoundMem(GameClear) == 0))
+    StopSoundMem(GamePlay);
+    StopSoundMem(GameOver);
+    StopSoundMem(GameClear);
+    if (CheckSoundMem(Title) == 0)
     {
-        StopSoundMem(GamePlay);
-        StopSoundMem(GameOver);
-        StopSoundMem(GameClear);
+        PlaySoundMem(Title,DX_PLAYTYPE_LOOP, TRUE);
     }
-    PlaySoundMem(Title,DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::PlayGame()
 {
-    while (!(CheckSoundMem(Title) == 0))
+    StopSoundMem(Title);
+    if (CheckSoundMem(GamePlay) == 0)
     {
-        StopSoundMem(Title);
+        PlaySoundMem(GamePlay, DX_PLAYTYPE_LOOP, TRUE);
     }
-    PlaySoundMem(GamePlay, DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::PlayClear()
 {
     StopSE();
-    while (!(CheckSoundMem(GamePlay) == 0))
+    StopSoundMem(GamePlay);
+    if (CheckSoundMem(GameClear) == 0)
     {
-        StopSoundMem(GamePlay);
+        PlaySoundMem(GameClear, DX_PLAYTYPE_LOOP, TRUE);
     }
-    PlaySoundMem(GameClear, DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::PlayOver()
 {
     StopSE();
-    while (!(CheckSoundMem(GamePlay) == 0))
+    StopSoundMem(GamePlay);
+    if (CheckSoundMem(GameOver) == 0)
     {
-        StopSoundMem(GamePlay);
+        PlaySoundMem(GameOver, DX_PLAYTYPE_LOOP, TRUE);
     }
-    PlaySoundMem(GameOver, DX_PLAYTYPE_LOOP, TRUE);
 }
 
 void Sound::StopSE()
 {
-    while (!(CheckSoundMem(Walk) == 0 && CheckSoundMem(Miss) == 0 && CheckSoundMem(InDoor) == 0 &&
-        CheckSoundMem(OpenDoor) == 0 && CheckSoundMem(CloseDoor) == 0))
+    while (CheckSoundMem(Walk) != 0 && CheckSoundMem(Miss) != 0 && CheckSoundMem(InDoor) != 0 &&
+        CheckSoundMem(OpenDoor) != 0 && CheckSoundMem(CloseDoor) != 0)
     {
         StopSoundMem(Walk);
         StopSoundMem(Miss);

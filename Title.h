@@ -1,21 +1,25 @@
 #pragma once
-class Scene;
-class BackGround;
-class Sound;
-class Title
+#include "DxLib.h"
+#include "SceneBase.h"
+class SceneManager;
+class Title : public SceneBase
 {
 public:
+    static void Create();
+    static void Destroy();
+    SceneBase* Update(SceneManager* sceneManager);
+    void Draw()override;
+
+    static Title* GetInstance() { return Instance; }
+private:
     Title();
     ~Title();
-    void Update(Scene* scene, Sound* sound);
-    void Draw(BackGround* background, Scene* scene);
-
-private:
-    const int MaxColor = 255;
-    int BToPlay;
+    static Title* Instance;
+    const int MaxColor = 125;
     int Alpha;
 
     //ゲームパッドステータス
     XINPUT_STATE input;
+    int TitleMovie = -1;
 };
 

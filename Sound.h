@@ -2,9 +2,9 @@
 class Sound
 {
 public:
-    Sound();
-    ~Sound();
-
+    static void Create();
+    static void Destroy();
+    static Sound* GetInstance() { return Instance; }
     //BGM
     void PlayTitle();
     void PlayGame();
@@ -21,6 +21,9 @@ public:
     void PlayCloseDoor();
 
 private:
+    Sound();
+    ~Sound();
+    static Sound* Instance;
 
     //BGM
     int Title;

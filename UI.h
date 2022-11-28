@@ -2,9 +2,13 @@
 class UI
 {
 public:
-    UI();
-    ~UI();
+    static void Create();
+    static void Destroy();
+    static UI* GetInstance() { return Instance; }
+
     void Initialize();
+    //タイトル画面
+    void TitleWriteBToPlay();
     //制限時間
     void WriteLimitTime(int LimitTime);
     //スコア
@@ -22,6 +26,10 @@ public:
     void ResultWriteBToTitle();
 
 private:
+    UI();
+    ~UI();
+    static UI* Instance;
+
     const int FontSize = 60;
     const int LimitTimePosX = 850;
     const int UIPosY = 20;
@@ -35,7 +43,13 @@ private:
     //褒めるUI
     const int GoodUIPosX = 1620;
     const int GoodUIPosY = 100;
-    const float CoolTimeMax = 10.0f;
+
+    const int MeterPosX = 1620;
+    const int MeterPosY = 400;
+    const int MeterHeight = 32;
+    //アニメーションの表示時間
+    const float CoolTimeMax = 5.0f;
+
     int GoodUI;
     int ExcellentUI;
     float CoolTime;

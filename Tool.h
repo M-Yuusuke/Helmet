@@ -1,17 +1,24 @@
 #pragma once
 class HitCheck;
 class Player;
+class Effect;
 class Tool
 {
 public:
-    Tool();
-    ~Tool();
+    static void Create();
+    static void Destroy();
+    static Tool* GetInstance() { return Instance; }
+
     void Initialize();
-    bool CheckHit(int PlayerX,int PlayerY,float Radius) const;
+    bool CheckHit(int PlayerX,int PlayerY,float Radius,Effect* effect) const;
     void Update(float DeltaTime);
     void Draw();
 
 private:
+    Tool();
+    ~Tool();
+    static Tool* Instance;
+
     const int DropToolFirstPosX = 400;
     const int DropToolFirstPosY = 95;
     const int DropToolMax = 5;

@@ -1,117 +1,51 @@
-#include "DxLib.h"
 #include "SceneManager.h"
+#include "SceneBase.h"
 #include "Initialize.h"
 #include "Title.h"
 #include "GameMain.h"
-#include "GameClear.h"
-#include "GameOver.h"
+#include "Result.h"
 #include "Rule.h"
-#include "HitCheck.h"
-#include "UI.h"
-#include "Sound.h"
-#include "BackGround.h"
-#include "Door.h" 
-#include "Player.h"
-#include "Tool.h"
 
-SceneManager::SceneManager() :
-    initialize(new Initialize()),
-    title(new Title()),
-    gamemain(new GameMain()),
-    gameclear(new GameClear()),
-    gameover(new GameOver()),
-    rule(new Rule()),
-    hitcheck(new HitCheck()),
-    ui(new UI()),
-    sound(new Sound()),
-    background(new BackGround()),
-    door(new Door()),
-    player(new Player()),
-    tool(new Tool()),
-    scene(INIT)
+SceneManager::SceneManager()
 {
+    Initialize::Create();
+    Title::Create();
+    GameMain::Create();
+    Result::Create();
+
+    initialize = Initialize::GetInstance();
+    title = Title::GetInstance();
+    gamemain = GameMain::GetInstance();
+    result = Result::GetInstance();
 }
 
 SceneManager::~SceneManager()
 {
-    delete rule;
-    delete hitcheck;
-    delete ui;
-    delete sound;
-    delete background;
-    delete door;
-    delete player;
-    delete tool;
+
+    Initialize::Destroy();
+    Title::Destroy();
+    GameMain::Destroy();
+    Result::Destroy();
+
 }
 
-void SceneManager::InitializeScene()
+SceneBase* SceneManager::GetNextScene(SceneBase* NowScene) const
 {
-    while (!ProcessMessage() && scene == INIT)
+    if (initialize == NowScene)
     {
-        initialize->Reset(rule, ui, door, player, tool, sound, this);
+        return title;
     }
-}
-
-void SceneManager::TitleScene()
-{
-    while (!ProcessMessage() && scene == TITLE)
+    if (title == NowScene)
     {
-        title->TitleDraw(this,sound);
+        Rule::SetStartTime();
+        return gamemain;
     }
-}
-
-void SceneManager::GameMainScene()
-{
-    rule->SetStartTime();
-    while (!ProcessMessage() && scene == GAMEMAIN)
+    if (gamemain == NowScene)
     {
-        gamemain->GameLoop(this, rule, ui, hitcheck, background, door, player, tool, sound);
+        return result;
     }
-}
-
-void SceneManager::ClearScene()
-{
-    while (!ProcessMessage() && scene == CLEAR)
+    if (result == NowScene || nullptr == NowScene)
     {
-        gameclear->GameClearDraw(this, sound,rule);
+        return initialize;
     }
-}
-
-void SceneManager::OverScene()
-{
-    while (!ProcessMessage() && scene == OVER)
-    {
-        gameover->GameOverDraw(this, sound, rule);
-    }
-}
-
-void SceneManager::NextScene()
-{
-    switch (scene)
-    {
-    case INIT:
-        scene = TITLE;
-        break;
-    case TITLE:
-        scene = GAMEMAIN;
-        break;
-    case CLEAR:
-        scene = INIT;
-        break;
-    case OVER:
-        scene = INIT;
-        break;
-    default:
-        break;
-    }
-}
-
-void SceneManager::ChangeGameClear()
-{
-    scene = CLEAR;
-}
-
-void SceneManager::ChangeGameOver()
-{
-    scene = OVER;
 }

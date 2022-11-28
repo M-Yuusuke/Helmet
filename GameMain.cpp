@@ -1,37 +1,45 @@
 #include "DxLib.h"
 #include "GameMain.h"
-#include "Scene.h"
+#include "SceneManager.h"
 #include "Rule.h"
 #include "UI.h"
 #include "Effect.h"
 #include "HitCheck.h"
-#include "BackGround.h"
 #include "Door.h"
 #include "Player.h"
 #include "Tool.h"
 #include "Sound.h"
 
+GameMain* GameMain::Instance = nullptr;
 GameMain::GameMain()
 {
+    if (Background == -1)
+    {
+        Background = LoadGraph("Img/BackGround/BackGround.png");
+    }
 }
 
-void GameMain::Update(Scene* scene, Rule* rule, UI* ui, Effect* effect, HitCheck* hitcheck, Door* door, Player* player, Tool* tool, Sound* sound)
+GameMain::~GameMain()
 {
-    //ゲームクリア
-    if (rule->GetLimitTime() <= 0 && player->GetLifeNum() >= 1)
-    {
-        sound->PlayClear();
-        player->ResultRandomPlayer();
-        scene->ChangeGameClear();
-    }
-    //ゲームオーバー
-    if (player->GetLifeNum() == 0)
-    {
-        sound->PlayOver();
-        player->ResultRandomPlayer();
-        scene->ChangeGameOver();
-    }
+    DeleteGraph(Background);
+}
 
+void GameMain::Create()
+{
+    if (!Instance)
+    {
+        Instance = new GameMain;
+    }
+}
+
+void GameMain::Destroy()
+{
+    delete Instance;
+    Instance = nullptr;
+}
+
+SceneBase* GameMain::Update(SceneManager* sceneManager)
+{
     //プレイヤー再生成
     if (player->GetDead())
     {
@@ -48,24 +56,32 @@ void GameMain::Update(Scene* scene, Rule* rule, UI* ui, Effect* effect, HitCheck
         rule->IncreaseScore(ui->GetExcellentUIVisible());
     }
 
-    ClearDrawScreen();
     rule->SetNowTime();
-    rule->SetDeltaTime();
+    rule->SetDeltaTime(); 
 
     //更新処理郡
     door->Update(rule->GetDeltaTime(), sound);
-    player->Update(rule->GetDeltaTime(), door, tool, sound);
+    player->Update(rule->GetDeltaTime(), door, tool, sound, effect);
     hitcheck->OnDoor(player, door, effect);
     tool->Update(rule->GetDeltaTime());
     ui->Update(rule->GetDeltaTime());
     effect->Update(rule->GetDeltaTime());
+
+    if (rule->CheckClear(player, sound) != 0)
+    {
+        return sceneManager->GetNextScene(this);
+        //delete this;
+        //return new Result;
+    }
+
+    return this;
 }
 
-void GameMain::Draw(Rule* rule, UI* ui, Effect* effect, BackGround* background,
-                    Door* door, Player* player, Tool* tool,Scene* scene)
+void GameMain::Draw()
 {
+    ClearDrawScreen();
     //描画処理郡
-    background->Draw(scene->GetScene());
+    DrawGraph(0, 0, Background, FALSE);
     door->Draw();
     player->Draw();
     tool->Draw();
